@@ -1,6 +1,6 @@
 /**
  * @file PilasColas.c
- * @brief Crea una pila y una cola simples.
+ * @brief Crea una pila y una cola simple.
  * 
  * Este archivo contiene un menú que permite elegir trabajar con pilas o colas.
  * También contiene las dos operaciones para pilas (push y pop) y para colas (enqueue y dequeue).
@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <stdbool.h>
+
+#define VERSION "1.1"
 
 // Estructura para la pila
 typedef struct Node_Stack {
@@ -43,9 +45,9 @@ int main(int argc, char const *argv[]) {
 
     do {
         system("cls");
-        printf("/*--------------------------------------.");
-        printf("\n| PROGRAMA QUE CREA UNA PILA Y UNA COLA |");
-        printf("\n`--------------------------------------*/");
+        printf("/*----------------------------------------------------.");
+        printf("\n| PROGRAMA QUE CREA UNA PILA Y UNA COLA (Version %s) |", VERSION);
+        printf("\n`----------------------------------------------------*/");
         printf("\n\n>> Elija una de las opciones");
         printf("\n\n1.- Pila");
         printf("\n2.- Cola");
@@ -79,7 +81,7 @@ int main(int argc, char const *argv[]) {
  * 
  * Esta función contiene el menú para la pila en donde se elige entre sus dos operaciones.
  * 
- * @param stack Puntero a la pila.
+ * @param stack Puntero al tope de la pila.
  */
 void Menu_Pila(Node_Stack *stack) {
     int op, num = 0;
@@ -197,9 +199,9 @@ void Menu_Cola(Node_Queue *head, Node_Queue *tail) {
 }
 
 /**
- * @brief Inserta un número a la pila.
+ * @brief Inserta un número en la pila.
  * 
- * @param stack Puntero al puntero de la pila.
+ * @param stack Puntero al puntero del tope de la pila.
  * @param num Número a insertar en la pila.
  */
 void Push(Node_Stack **stack, int num) {
@@ -212,12 +214,12 @@ void Push(Node_Stack **stack, int num) {
 }
 
 /**
- * @brief Saca un número de la pila,
+ * @brief Saca un número de la pila.
  * 
  * Esta función saca un número de la pila siguiendo el principio LIFO.
  * 
- * @param stack Puntero al puntero de la pila.
- * @param num Puntero al valor de un elemento de la pila.
+ * @param stack Puntero al puntero del tope la pila.
+ * @param num Puntero al valor del tope de la pila.
  */
 void Pop(Node_Stack **stack, int *num) {
     Node_Stack *aux = *stack;
@@ -231,7 +233,7 @@ void Pop(Node_Stack **stack, int *num) {
  * 
  * @param head Puntero a la cabeza de la cola.
  * 
- * @return True si la cola esta vacía, False en caso contrario.
+ * @return true si la cola esta vacía, false en caso contrario.
  */
 bool ColaVacia(Node_Queue *head) {
     return (head == NULL)? true : false;
@@ -267,7 +269,7 @@ void Enqueue(Node_Queue **head, Node_Queue **tail, int num) {
  * 
  * @param head Puntero al puntero de la cabeza de la cola.
  * @param tail Puntero al puntero de la cola de la cola.
- * @param num Puntero al valor de un elemento de la cola.
+ * @param num Puntero al valor de la cola de la cola.
  */
 void Dequeue(Node_Queue **head, Node_Queue **tail, int *num) {
     *num = (*head) -> num;
