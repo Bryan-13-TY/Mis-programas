@@ -1,6 +1,6 @@
 /**
  * @file ParentesisBalanceados.c
- * @brief Verifica el balanceo de paréntesis en una cadena
+ * @brief Verifica el balanceo de paréntesis en una cadena.
  * 
  * Este archivo toma una cadena de paréntesis y usando pilas, determina
  * si la cadena esta balanceada o no.
