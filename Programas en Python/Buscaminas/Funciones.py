@@ -52,7 +52,7 @@ def inicializarTablero(height: int, width: int, numMines: int) -> None:
 
             i += 1
 
-    # Se calculas las minas alrededor de la mina
+    # Se calculan las minas alrededor de la mina
     for row in range(height):
         for colum in range(width):
             if (board[row][colum] == -1): # Hay una mina en la celda
@@ -91,7 +91,7 @@ Dimensines del tablero: 9 x 9
         case '2':
             height, width, mines = 16, 16, 40
             print("""
-/*-----------------s-----.
+/*-----------------------.
 | DIFICULTAD: AFICIONADO |
 `-----------------------*/
 
