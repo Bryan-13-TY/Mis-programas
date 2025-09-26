@@ -1,0 +1,28 @@
+{
+    "carrito": [
+        {
+            "id": 1,
+            "tipo": "Abarrotes",
+            "nombre": "Tortillas de maíz",
+            "precio": 28,
+            "marca": "Maseca",
+            "stock": 120
+        },
+        {
+            "id": 2,
+            "tipo": "Abarrotes",
+            "nombre": "Pan blanco",
+            "precio": 45,
+            "marca": "Bimbo",
+            "stock": 80
+        },
+        {
+            "id": 3,
+            "tipo": "Abarrotes",
+            "nombre": "Arroz",
+            "precio": 34,
+            "marca": "La Sierra",
+            "stock": 60
+        }
+    ]
+}

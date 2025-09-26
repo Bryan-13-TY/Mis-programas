@@ -67,21 +67,48 @@ while (True): # Mientras no se cierre el cliente
                   
 >> Elije una de las opciones
 
-1.- Agregar un artículo al carrito
-2.- Eliminar un artículo del carrito
-3.- Volver
+1.- Ver carrito
+2.- Agregar un artículo al carrito
+3.- Eliminar un artículo del carrito
+4.- Volver
 """)
                 opcion = input("Opción: ")
 
                 match (opcion):
-                    case 1:
-                        print
-                    case 2:
-                        print
-                    case 3:
+                    case '1':
+                        print("""
+/*------------------------.
+| ARTÍCULOS EN EL CARRITO |                              
+`------------------------*/
+""")
+                        solicitud = {"accion": "MOSTRAR_CARRITO"}
+                        cliente.send(json.dumps(solicitud).encode("utf-8"))
+                    case '2':
+                        print("""
+/*-----------------.
+| AGREGAR ARTÍCULO |
+`-----------------*/
+""")
+                        buscar = input("Escribe el id o el nombre del artículos a agregar: ")
+                        cantidad = input("Escribe la cantidad a agregar de ese artículo: ")
+                        solicitud = {"accion": "AGREGAR_CARRITO", "buscar": buscar, "cantidad": int(cantidad)}
+                        cliente.send(json.dumps(solicitud).encode("utf-8"))
+                        print("\n>> Presiona una tecla para continuar...")
+                        tecla = getch()
+                    case '3':
+                        print("""
+/*------------------.
+| ELIMINAR ARTÍCULO |            
+`------------------*/
+""")
+                        print("\n>> Presiona una tecla para continuar...")
+                        tecla = getch()
+                    case '4':
                         break
                     case _:
-                        print
+                        print("\n>> La opción no es válida")
+                        print("\n>> Presiona una tecla para continuar...")
+                        tecla = getch()
         case '4':
             print("""
 /*--------------------.
@@ -93,4 +120,6 @@ while (True): # Mientras no se cierre el cliente
             cliente.close()
             break
         case _:
-            print(">> La opción no es válida")
+            print("\n>> La opción no es válida")
+            print("\n>> Presiona una tecla para continuar...")
+            tecla = getch()
