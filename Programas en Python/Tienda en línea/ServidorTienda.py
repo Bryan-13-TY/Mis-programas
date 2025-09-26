@@ -47,9 +47,9 @@ while (True): # El servidor simpre activo
             elif (solicitud["accion"] == "MOSTRAR_CARRITO"):
                 listarArticulos(rutaCarrito, conn)
             elif (solicitud["accion"] == "AGREGAR_CARRITO"):
-                agregarCarrito(rutaArticulos, rutaCarrito, solicitud["articulo"], solicitud["cantidad"])
+                agregarCarrito(rutaArticulos, rutaCarrito, solicitud["articulo"], int(solicitud["cantidad"]), conn)
             elif (solicitud["accion"] == "ELIMINAR_CARRITO"):
-                eliminarCarrito()
+                eliminarCarrito(rutaCarrito, solicitud["articulo"], int(solicitud["cantidad"]), conn)
             elif (solicitud["accion"] == "FINALIZAR_COMPRA"):
                 finalizarCompra()
             else:

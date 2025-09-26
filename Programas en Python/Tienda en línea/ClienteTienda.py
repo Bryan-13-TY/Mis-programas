@@ -104,6 +104,7 @@ while (True): # Mientras no se cierre el cliente
                         articulosCarrito = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
 
                         if ("mensaje" in articulosCarrito): # El carrito esta vacío
+                            print()
                             mostrarMensaje(articulosCarrito)
                         else: # Si hay al menos un artículo en el carrito
                             mostrarCarrito(articulosCarrito)
@@ -127,6 +128,13 @@ while (True): # Mientras no se cierre el cliente
                         else:
                             print("\n>> Ingresa una cantidad válida")
 
+                        datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
+                        confirmacion = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
+
+                        if ("mensaje" in confirmacion): # El carrito esta vacío
+                            print()
+                            mostrarMensaje(confirmacion)
+
                         # Esperamos una tecla
                         print("\n>> Presiona una tecla para continuar...")
                         tecla = esperarTecla()
@@ -140,8 +148,18 @@ while (True): # Mientras no se cierre el cliente
                         eliminar = input("Escribe el id o el nombre del artículo a eliminar: ").strip()
                         cantidad = input("Escribe la cantidad a eliminar de ese artículo: ").strip()
 
-                        solicitud = {"accion": "ELIMINAR_CARRITO", "articulo": eliminar, "cantidad": int(cantidad)} # Creamos la solicitud como un diccionario
-                        cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+                        if (cantidad.isdigit() and int(cantidad) > 0):
+                            solicitud = {"accion": "ELIMINAR_CARRITO", "articulo": eliminar, "cantidad": cantidad} # Creamos la solicitud como un diccionario
+                            cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+                        else:
+                            print("\n>> Ingresa una cantidad válida")
+
+                        datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
+                        confirmacion = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
+
+                        if ("mensaje" in confirmacion): # El carrito esta vacío
+                            print()
+                            mostrarMensaje(confirmacion)
 
                         # Esperamos una tecla
                         print("\n>> Presiona una tecla para continuar...")

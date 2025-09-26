@@ -14,13 +14,13 @@ def listarTipo(articulos: dict, tipoArticulo: str) -> None:
     tipoArticulo: str
         Uno de los tipos de los artículos: "Abarrotes", "Bebidas", "Snacks", "Cuidado personal" y "Limpieza".
     """
-    for art in articulos["articulos"]:
-        if (art['tipo'] == tipoArticulo): # Si coincide con el tipo del artículo
-            print(f"\nId: {art['id']}")
-            print(f"Nombre: {art['nombre']}")
-            print(f"Precio: ${art['precio']} MXN")
-            print(f"Marca: {art['marca']}")
-            print(f"Stock: {art['stock']} artículos disponibles")
+    for item in articulos["articulos"]:
+        if (item['tipo'] == tipoArticulo): # Si coincide con el tipo del artículo
+            print(f"\nId: {item['id']}")
+            print(f"Nombre: {item['nombre']}")
+            print(f"Precio: ${item['precio']} MXN")
+            print(f"Marca: {item['marca']}")
+            print(f"Stock: {item['stock']} artículos disponibles")
 
 def listarArticulos(articulos: dict) -> None:
     """
@@ -63,13 +63,13 @@ def mostrarBusqueda(busqueda: dict) -> None:
         Diccionario con los artículos encontrados.
     """
     print("\nArtículo(s) encontrado(s):")
-    for art in busqueda["articulos"]:
-        print(f"\nId: {art['id']}")
-        print(f"Tipo: {art['tipo']}")
-        print(f"Nombre: {art['nombre']}")
-        print(f"Precio: ${art['precio']} MXN")
-        print(f"Marca: {art['marca']}")
-        print(f"Stock: {art['stock']}")
+    for item in busqueda["articulos"]:
+        print(f"\nId: {item['id']}")
+        print(f"Tipo: {item['tipo']}")
+        print(f"Nombre: {item['nombre']}")
+        print(f"Precio: ${item['precio']} MXN")
+        print(f"Marca: {item['marca']}")
+        print(f"Stock: {item['stock']}")
 
 def mostrarMensaje(mensaje: dict) -> None:
     """
@@ -95,12 +95,14 @@ def mostrarCarrito(carrito: dict) -> None:
     """
     print("Articulos en el carrito:")
 
-    for art in carrito["carrito"]:
-        print(f"\nId: {art['id']}")
-        print(f"Nombre: {art['nombre']}")
-        print(f"Precio: ${art['precio']} MXN")
-        print(f"Marca: {art['marca']}")
-        print(f"Stock: {art['stock']}")
+    for item in carrito["carrito"]:
+        print(f"\nId: {item['id']}")
+        print(f"Tipo: {item['tipo']}")
+        print(f"Nombre: {item['nombre']}")
+        print(f"Precio: ${item['precio']} MXN")
+        print(f"Marca: {item['marca']}")
+        print(f"Cantidad: {item['cantidad']}")
+        print(f"Precio total: {item['precioTotal']}")
 
 def esperarTecla():
     return msvcrt.getch().decode("utf-8")  # devuelve la tecla como string

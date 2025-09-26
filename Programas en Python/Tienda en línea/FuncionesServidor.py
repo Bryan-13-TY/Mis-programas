@@ -20,7 +20,7 @@ def obtenerRuta() -> tuple[str, str]:
     
     return rutaArticulos, rutaCarrito
 
-def guardarArticulos(ruta: str) -> dict:
+def cargarJSON(ruta: str) -> dict:
     """
     Convierte los artículos del archivo "Articulos.json" o "Carrito.json" a un diccionario.
 
@@ -30,7 +30,7 @@ def guardarArticulos(ruta: str) -> dict:
     Parameters
     ----------
     ruta : str
-        Ruta hacia del archivo "Articulos.json" o "Carrito.json".
+        Ruta hacia el archivo "Articulos.json" o "Carrito.json".
 
     Returns
     -------
@@ -41,6 +41,27 @@ def guardarArticulos(ruta: str) -> dict:
         articulos = json.load(file) # Toma "file" y lo convierte a un objeto de tipo Python (deserialización)
 
     return articulos
+
+def guardarJSON(rutaCarrito: str, articulo: dict) -> None:
+    """
+    Parameters
+    ----------
+    rutaCarrito : str
+        Ruta hacia el archivo "Carrito.json".
+    articulos: dict
+        Diccionario con el artículo a agregar al carrito.
+    """
+    with open(rutaCarrito, "w", encoding = "utf-8") as file:
+        json.dump(articulo, file, indent = 4, ensure_ascii = False)
+
+
+def enviarMensaje(mensaje: str, conexion: socket.socket) -> None:
+    mensajeEnviar = {"mensaje": [{"error": f"{mensaje}"}]} # Se crea el JSON con el mensaje de error
+
+    print(f"\n>> Se envia al cliente: {mensajeEnviar}") # Se imprime lo que se envía al cliente
+
+    respuesta = json.dumps(mensajeEnviar).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
+    conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion" 
 
 def listarArticulos(ruta: str, conexion: socket.socket) -> None:
     """
@@ -56,17 +77,12 @@ def listarArticulos(ruta: str, conexion: socket.socket) -> None:
     conexion : socket.socket
         Nuevo socket que representa la conexión con un cliente en particular.
     """
-    articulos = guardarArticulos(ruta) # Obtenemos el diccionario con los artículos
+    articulos = cargarJSON(ruta) # Obtenemos el diccionario con los artículos
 
     # Verificamos si hay artículos en la tienda o en el carrito
     if ("articulos" in articulos):
         if (not articulos["articulos"]): # Si no hay artículos en la tienda
-            mensaje = {"mensaje": [{"error": "No hay artículos para mostrar"}]} # Se crea el JSON con el mensaje de error
-
-            print(f"\n>> Se envia al cliente: {mensaje}") # Se imprime lo que se envía al cliente
-            
-            respuesta = json.dumps(mensaje).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
-            conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
+            enviarMensaje("No hay artículos para mostrar", conexion)
         else:
             print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
 
@@ -75,12 +91,7 @@ def listarArticulos(ruta: str, conexion: socket.socket) -> None:
 
     if ("carrito" in articulos):
         if (not articulos["carrito"]): # Si no hay artículos en el carrito
-            mensaje = {"mensaje": [{"error": "No hay artículos para mostrar"}]} # Se crea el JSON con el mensaje de error
-
-            print(f"\n>> Se envia al cliente: {mensaje}") # Se imprime lo que se envía al cliente
-            
-            respuesta = json.dumps(mensaje).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
-            conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
+            enviarMensaje("No hay artículos para mostrar", conexion)
         else:
             print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
 
@@ -105,7 +116,7 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
         Nuevo socket que representa la conexión con un cliente en particular.
     """
     buscar = criterioBusqueda.lower() # Guardamos el nombre o marca del artículo
-    articulos = guardarArticulos(rutaArticulos) # Guardamos los artículos en un diccionario
+    articulos = cargarJSON(rutaArticulos) # Guardamos los artículos en un diccionario
     counter = 0 # Contador de artículos encontrados
 
     coincidencias = {"articulos": []} # Cremos el JSON con un diccionario vacío
@@ -121,32 +132,121 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
         respuesta = json.dumps(coincidencias).encode("utf-8") # Serializar el JSON
         conexion.send(respuesta)
     else: # Si no se encontro ningún artículo
-        mensaje = {"mensaje": [{"error": "No hay coincidencias"}]} # Se crea el JSON con el mensaje
+        enviarMensaje("No hay coincidencias", conexion)
 
-        print(f"\n>> Se envia al cliente: {mensaje}") # Se imprime lo que se envía al cliente
-
-        respuesta = json.dumps(mensaje).encode("utf-8") # Serializar el JSON
-        conexion.send(respuesta) # Se envía la respuesta al cliente
-
-def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, cantidad: int) -> None:
-    # Revisamos se el criterio de búsqueda fue el nombre o el id del artículo
+def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
+    # Revisamos si el criterio de búsqueda fue el nombre o el id del artículo y ajustamos
+    # el tipo de la varibale 'buscar'
     if (criterioBusqueda.isdigit()):
         buscar = int(criterioBusqueda)
     else:
-        buscar = criterioBusqueda
+        buscar = criterioBusqueda.lower()
 
-    articulos = guardarArticulos(rutaArticulos) # Guardamos los artículos en un diccionario
-    carrito = guardarArticulos(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
+    articulos = cargarJSON(rutaArticulos) # Guardamos los artículos en un diccionario
+    carrito = cargarJSON(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
+
+    articuloAgregar = None # Aquí se guarda el artículo a agregar
 
     # Buscamos el artículo a agregar
     for art in articulos.get("articulos", []):
         if (isinstance(buscar, int) and buscar == art["id"]):
-            print(f"El elemento a agregar es: {art}")
-        elif (isinstance(buscar, str) and buscar in art["nombre"]):
-            print(f"El elemento a agregar es: {art}")
+            articuloAgregar = art
 
-def eliminarCarrito():
-    print
+            break
+        elif (isinstance(buscar, str) and buscar in art["nombre"].lower()):
+            articuloAgregar = art
+
+            break
+
+    # Verificamos que se haya encontrado el artículo
+    if (not articuloAgregar):
+        enviarMensaje("El artículo no existe en la tienda", conexion)
+        
+        return
+
+    # Verificamos si el stock del artículo es suficiente
+    if (cantidad > articuloAgregar["stock"]):
+        enviarMensaje(f"No hay suficiente stock para agregar {cantidad} artículos", conexion)
+        
+        return
+    
+    # Verificamos si el artículo encontrado ya esta en el artículo
+    for item in carrito["carrito"]:
+        if (item["id"] == articuloAgregar["id"]): # Si ya esta el artículo en el carrito
+            if (item["cantidad"] + cantidad > 5): # Si es menor qur 5
+                enviarMensaje("No pudes agregar más de cinco unidades del mismo artículo", conexion)
+
+                return
+            
+            item["cantidad"] += cantidad # Actualizamos la cantidad del artículo en el carrito
+            item["precioTotal"] = item["precio"] * item["cantidad"] # Actualizamos el precio total del artículo
+
+            guardarJSON(rutaCarrito, carrito) # Actualizamos el artíclo en el carrito
+            enviarMensaje("El artículo se actualizó en el carrito", conexion)
+
+            return
+        
+    # Se crea el artículo que se va a agregar al carrito, si este no existe previamente
+    itemCarrito = articuloAgregar.copy()
+    itemCarrito.pop("stock", None) # Se saca el item none del artículo a agregar
+    itemCarrito["cantidad"] = cantidad # Se crea el item 'cantidad' en el artículo a agregar
+    itemCarrito["precioTotal"] = itemCarrito["precio"] * cantidad # Se calcula el precio total y se cre el item 'precioTotal' en el artículo a agregar
+
+    carrito["carrito"].append(itemCarrito) # Se agregan los items creados al artículo a agregars
+    guardarJSON(rutaCarrito, carrito) # Se agrega el artículo al carrito
+    enviarMensaje("El artículo se agregó al carrito", conexion)
+
+def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
+    # Revisamos si el criterio de búsqueda fue el nombre o el id del artículo y ajustamos
+    # el tipo de la varibale 'buscar'
+    if (criterioBusqueda.isdigit()):
+        buscar = int(criterioBusqueda)
+    else:
+        buscar = criterioBusqueda.lower()
+
+    carrito = cargarJSON(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
+
+    articuloEliminar = None # Aquí se guarda el artículo a eliminar
+
+    # Buscamos el artículo a eliminar
+    for art in carrito.get("carrito", []):
+        if (isinstance(buscar, int) and buscar == art["id"]):
+            articuloEliminar = art
+
+            break
+        elif (isinstance(buscar, str) and buscar in art["nombre"].lower()):
+            articuloEliminar = art
+
+            break
+
+    # Verificamos que se haya encontrado el artículo
+    if (not articuloEliminar):
+        enviarMensaje("El artículo no existe en el carrito", conexion)
+        
+        return
+    
+    # Verificamos si la cantidad del artículo es suficiente
+    if (cantidad > articuloEliminar["cantidad"]):
+        enviarMensaje(f"No hay suficiente artículos para eliminar {cantidad} artículos", conexion)
+        
+        return
+    
+    # Verificamos si el artículo encontrado ya esta en el carrito
+    for item in carrito["carrito"]:
+        if (item["id"] == articuloEliminar["id"]): # Si ya esta el artículo en el carrito
+            if ((item["cantidad"] - cantidad) > 0): # Si todavía restan artículos en el carrito
+                item["cantidad"] -= cantidad # Actualizamos la cantidad del artículo en el carrito
+                item["precioTotal"] = item["precio"] * item["cantidad"] # Actualizamos el precio total del artículo
+
+                guardarJSON(rutaCarrito, carrito) # Actualizamos el artíclo en el carrito
+                enviarMensaje("El artículo se actualizó en el carrito", conexion)
+            else: # Ya no hay artículos
+                carrito["carrito"].remove(item) # Eliminamos el artículo del carrito
+                
+                guardarJSON(rutaCarrito, carrito) # Actualizamos el artíclo en el carrito
+                enviarMensaje("El artículo se eliminó del carrito", conexion)
+
+            return
 
 def finalizarCompra():
     print
