@@ -29,7 +29,7 @@ def guardarArticulos(ruta: str) -> dict:
 
     Parameters
     ----------
-    rutaArticulos : str
+    ruta : str
         Ruta hacia del archivo "Articulos.json" o "Carrito.json".
 
     Returns
@@ -44,6 +44,11 @@ def guardarArticulos(ruta: str) -> dict:
 
 def listarArticulos(ruta: str, conexion: socket.socket) -> None:
     """
+    Lista los artículos de la tienda o del carrito de compras.
+
+    Esta función veriica si hay artículos en la tienda o en el carrito de compras,
+    si los hay, los lista de lo contrario envía un mensaje de error.
+
     Parameters
     ----------
     ruta : str
@@ -53,14 +58,51 @@ def listarArticulos(ruta: str, conexion: socket.socket) -> None:
     """
     articulos = guardarArticulos(ruta) # Obtenemos el diccionario con los artículos
 
-    print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
+    # Verificamos si hay artículos en la tienda o en el carrito
+    if ("articulos" in articulos):
+        if (not articulos["articulos"]): # Si no hay artículos en la tienda
+            mensaje = {"mensaje": [{"error": "No hay artículos para mostrar"}]} # Se crea el JSON con el mensaje de error
 
-    respuesta = json.dumps(articulos).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
-    conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
+            print(f"\n>> Se envia al cliente: {mensaje}") # Se imprime lo que se envía al cliente
+            
+            respuesta = json.dumps(mensaje).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
+            conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
+        else:
+            print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
+
+            respuesta = json.dumps(articulos).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
+            conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
+
+    if ("carrito" in articulos):
+        if (not articulos["carrito"]): # Si no hay artículos en el carrito
+            mensaje = {"mensaje": [{"error": "No hay artículos para mostrar"}]} # Se crea el JSON con el mensaje de error
+
+            print(f"\n>> Se envia al cliente: {mensaje}") # Se imprime lo que se envía al cliente
+            
+            respuesta = json.dumps(mensaje).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
+            conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
+        else:
+            print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
+
+            respuesta = json.dumps(articulos).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
+            conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
 
 def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.socket) -> None:
     """
-    
+    Busca un artículo que coincida con el nombre o marca indicada por el usaurio.
+
+    Esta función busca en los artículos de la tiendo aquel o aquellos que coincidan con la
+    marca o nombre de un artículo. Si se encuentra una coincidencia agrega e artículo a un JSON,
+    de lo contrario se envía el mensaje correspondiente.
+
+    Parameters
+    ----------
+    rutaArticulos : str
+        Ruta hacia del archivo "Articulos.json".
+    criterioBusqueda : str
+        La marca o el nombre del artículo a buscar.
+    conexion : socket.socket
+        Nuevo socket que representa la conexión con un cliente en particular.
     """
     buscar = criterioBusqueda.lower() # Guardamos el nombre o marca del artículo
     articulos = guardarArticulos(rutaArticulos) # Guardamos los artículos en un diccionario
@@ -68,9 +110,9 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
 
     coincidencias = {"articulos": []} # Cremos el JSON con un diccionario vacío
 
-    for articulo in articulos.get("articulos", []): # Buscamos los artículos
-        if ((buscar in articulo["nombre"].lower()) or (buscar in articulo["marca"].lower())):
-            coincidencias["articulos"].append(articulo) # Agregamos el artículo que coindice con la búsqueda
+    for art in articulos.get("articulos", []): # Buscamos los artículos
+        if ((buscar in art["nombre"].lower()) or (buscar in art["marca"].lower())):
+            coincidencias["articulos"].append(art) # Agregamos el artículo que coindice con la búsqueda
             counter += 1
 
     if (counter > 0): # Si se encontró al menos un artículo
@@ -85,3 +127,26 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
 
         respuesta = json.dumps(mensaje).encode("utf-8") # Serializar el JSON
         conexion.send(respuesta) # Se envía la respuesta al cliente
+
+def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, cantidad: int) -> None:
+    # Revisamos se el criterio de búsqueda fue el nombre o el id del artículo
+    if (criterioBusqueda.isdigit()):
+        buscar = int(criterioBusqueda)
+    else:
+        buscar = criterioBusqueda
+
+    articulos = guardarArticulos(rutaArticulos) # Guardamos los artículos en un diccionario
+    carrito = guardarArticulos(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
+
+    # Buscamos el artículo a agregar
+    for art in articulos.get("articulos", []):
+        if (isinstance(buscar, int) and buscar == art["id"]):
+            print(f"El elemento a agregar es: {art}")
+        elif (isinstance(buscar, str) and buscar in art["nombre"]):
+            print(f"El elemento a agregar es: {art}")
+
+def eliminarCarrito():
+    print
+
+def finalizarCompra():
+    print

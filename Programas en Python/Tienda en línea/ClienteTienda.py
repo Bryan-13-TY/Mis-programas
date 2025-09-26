@@ -23,7 +23,7 @@ while (True): # Mientras no se cierre el cliente
 5.- Salir de la tienda
 """)
     
-    opcion = input("Opción: ")
+    opcion = input("Opción: ").strip()
 
     match (opcion):
         case '1':
@@ -38,7 +38,10 @@ while (True): # Mientras no se cierre el cliente
 
             articulos = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
 
-            listarArticulos(articulos) # Lista los artículos de la tienda
+            if ("mensaje" in articulos): # No hay artículos en la tienda
+                mostrarMensaje(articulos)
+            else: # Si hay al menos un artículos en la tienda
+                listarArticulos(articulos)
 
             # Esperamos una tecla
             print("\n>> Presiona una tecla para continuar...")
@@ -50,7 +53,7 @@ while (True): # Mientras no se cierre el cliente
 | BUSCAR UN ARTÍCULO |                  
 `-------------------*/
 """)
-            buscar = input("Escribe el nombre o la marca del/los artículo(s) a buscar: ")
+            buscar = input("Escribe el nombre o la marca del/los artículo(s) a buscar: ").strip()
 
             solicitud = {"accion": "BUSCAR_ARTICULOS", "buscar": buscar} # Creamos la solicitud como un diccionario
             cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
@@ -59,6 +62,7 @@ while (True): # Mientras no se cierre el cliente
             resultadoBusqueda = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
 
             if ("mensaje" in resultadoBusqueda): # No hubo coincidencias
+                print()
                 mostrarMensaje(resultadoBusqueda)
             else: # Si hubo al menos una coincidencia
                 mostrarBusqueda(resultadoBusqueda) # # Se muestran los artículos encontrados
@@ -84,7 +88,7 @@ while (True): # Mientras no se cierre el cliente
 4.- Volver
 """)
                 
-                opcion = input("Opción: ")
+                opcion = input("Opción: ").strip()
 
                 match (opcion):
                     case '1':
@@ -114,11 +118,14 @@ while (True): # Mientras no se cierre el cliente
 | AGREGAR ARTÍCULO |
 `-----------------*/
 """)
-                        agregar = input("Escribe el id o el nombre del artículo a agregar: ")
-                        cantidad = input("Escribe la cantidad a agregar de ese artículo: ")
+                        agregar = input("Escribe el id o el nombre del artículo a agregar: ").strip()
+                        cantidad = input("Escribe la cantidad a agregar de ese artículo (máx 5, min 1): ").strip()
 
-                        solicitud = {"accion": "AGREGAR_CARRITO", "articulo": buscar, "cantidad": int(cantidad)} # Creamos la solicitud como un diccionario
-                        cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+                        if (cantidad.isdigit() and (5 >= int(cantidad) > 0)):
+                            solicitud = {"accion": "AGREGAR_CARRITO", "articulo": agregar, "cantidad": cantidad} # Creamos la solicitud como un diccionario
+                            cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+                        else:
+                            print("\n>> Ingresa una cantidad válida")
 
                         # Esperamos una tecla
                         print("\n>> Presiona una tecla para continuar...")
@@ -130,8 +137,8 @@ while (True): # Mientras no se cierre el cliente
 | ELIMINAR ARTÍCULO |            
 `------------------*/
 """)
-                        eliminar = input("Escribe el id o el nombre del artículo a eliminar: ")
-                        cantidad = input("Escribe la cantidad a eliminar de ese artículo: ")
+                        eliminar = input("Escribe el id o el nombre del artículo a eliminar: ").strip()
+                        cantidad = input("Escribe la cantidad a eliminar de ese artículo: ").strip()
 
                         solicitud = {"accion": "ELIMINAR_CARRITO", "articulo": eliminar, "cantidad": int(cantidad)} # Creamos la solicitud como un diccionario
                         cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada

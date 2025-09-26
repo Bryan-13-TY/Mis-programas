@@ -80,9 +80,9 @@ def mostrarMensaje(mensaje: dict) -> None:
     mensaje : dict
         Diccionario de un solo elemento con el mensaje.
     """
-    print("\nArículos(s) encontrados(s):")
+
     for msj in mensaje["mensaje"]:
-        print(f"\n>> {msj['error']}")
+        print(f">> {msj['error']}")
 
 def mostrarCarrito(carrito: dict) -> None:
     """

@@ -1,5 +1,7 @@
 import socket, json
 from FuncionesServidor import obtenerRuta, listarArticulos, buscarArticulo
+from FuncionesServidor import agregarCarrito, eliminarCarrito, finalizarCompra
+
 
 rutaArticulos, rutaCarrito = obtenerRuta() # Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json)
 
@@ -45,11 +47,11 @@ while (True): # El servidor simpre activo
             elif (solicitud["accion"] == "MOSTRAR_CARRITO"):
                 listarArticulos(rutaCarrito, conn)
             elif (solicitud["accion"] == "AGREGAR_CARRITO"):
-                print()
+                agregarCarrito(rutaArticulos, rutaCarrito, solicitud["articulo"], solicitud["cantidad"])
             elif (solicitud["accion"] == "ELIMINAR_CARRITO"):
-                print()
+                eliminarCarrito()
             elif (solicitud["accion"] == "FINALIZAR_COMPRA"):
-                print()
+                finalizarCompra()
             else:
                 conn.send(b"Comando no reconocido")
 
