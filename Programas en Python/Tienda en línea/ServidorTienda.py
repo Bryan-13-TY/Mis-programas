@@ -1,5 +1,5 @@
 import socket, json
-from FuncionesServidor import obtenerRuta
+from FuncionesServidor import obtenerRuta, listarArticulos, buscarArticulo
 
 rutaArticulos, rutaCarrito = obtenerRuta() # Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json)
 
@@ -11,7 +11,7 @@ servidor.listen(2) # El socket esta en modo servidor, (2) = espera una solicitud
 print(">> Servidor en espera de clientes...")
 
 # Aquí empieza el servidor a operar
-while (True): # El servidor simpre acivo
+while (True): # El servidor simpre activo
     conn, addr = servidor.accept() # Espeta que un cliente se conecte al socket del servidor (conexión con cliente, dirección del cliente)
 
     print(f"\n>> Cliente conectado desde: {addr}")
@@ -37,4 +37,25 @@ while (True): # El servidor simpre acivo
 
                 continue
 
-        except:
+            # Revisamos las solicitudes
+            if (solicitud["accion"] == "LISTAR_ARTICULOS"):
+                listarArticulos(rutaArticulos, conn)
+            elif (solicitud["accion"] == "BUSCAR_ARTICULOS"):
+                buscarArticulo(rutaArticulos, solicitud["buscar"], conn)
+            elif (solicitud["accion"] == "MOSTRAR_CARRITO"):
+                listarArticulos(rutaCarrito, conn)
+            elif (solicitud["accion"] == "AGREGAR_CARRITO"):
+                print()
+            elif (solicitud["accion"] == "ELIMINAR_CARRITO"):
+                print()
+            elif (solicitud["accion"] == "FINALIZAR_COMPRA"):
+                print()
+            else:
+                conn.send(b"Comando no reconocido")
+
+        except ConnectionResetError:
+            print("\n>> El cliente cerró la conexión abruptamente")
+            
+            break
+    
+    conn.close() # Cerrar la conexión con el cliente
