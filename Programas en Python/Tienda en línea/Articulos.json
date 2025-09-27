@@ -6,7 +6,7 @@
             "nombre": "Tortillas de maíz",
             "precio": 28,
             "marca": "Maseca",
-            "stock": 120
+            "stock": 115
         },
         {
             "id": 2,
@@ -198,7 +198,7 @@
             "nombre": "Crema humectante",
             "precio": 95,
             "marca": "CeraVe",
-            "stock": 40
+            "stock": 35
         },
         {
             "id": 26,
@@ -246,7 +246,7 @@
             "nombre": "Limpiador multiusos",
             "precio": 48,
             "marca": "Fabuloso",
-            "stock": 110
+            "stock": 108
         },
         {
             "id": 32,

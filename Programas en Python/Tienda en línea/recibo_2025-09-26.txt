@@ -1,0 +1,17 @@
+************ RECIBO DE COMPRA ************
+
+Tortillas de maíz (Maseca)
+  Cantidad: 3
+  Precio unitario: $28 MXN
+  Subtotal: $84 MXN
+Crema humectante (CeraVe)
+  Cantidad: 5
+  Precio unitario: $95 MXN
+  Subtotal: $475 MXN
+Limpiador multiusos (Fabuloso)
+  Cantidad: 2
+  Precio unitario: $48 MXN
+  Subtotal: $96 MXN
+=====================================
+TOTAL A PAGAR: $655 MXN
+=====================================

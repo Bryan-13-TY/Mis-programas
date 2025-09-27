@@ -1,4 +1,19 @@
+"""
+Funciones para el servidor de la tienda en línea.
+
+Autores:
+    - García Escamilla Bryan Alexis
+    - Meléndez Macedonio Rodrigo
+
+Fecha: 26/09/2025
+
+Descripción:
+    Este archivo contiene todas las funciones que usa el servidor de la tienda en
+    línea para poder satisfacer las solicitudes del cliente.
+"""
+
 import os, json, socket
+from datetime import datetime
 
 def obtenerRuta() -> tuple[str, str]:
     """
@@ -30,7 +45,7 @@ def cargarJSON(ruta: str) -> dict:
     Parameters
     ----------
     ruta : str
-        Ruta hacia el archivo "Articulos.json" o "Carrito.json".
+        Ruta del archivo "Articulos.json" o "Carrito.json".
 
     Returns
     -------
@@ -42,21 +57,38 @@ def cargarJSON(ruta: str) -> dict:
 
     return articulos
 
-def guardarJSON(rutaCarrito: str, articulo: dict) -> None:
+def guardarJSON(ruta: str, diccionarioNuevo: dict) -> None:
     """
+    Guarda los cambios hechos en los artículos en el archivo correspondiente:
+
+    Esta función toma el diccionario con los cambios hechos y lo usa para actualizar el
+    archivo "Carrito.json" o "Articulos.json".
+
     Parameters
     ----------
-    rutaCarrito : str
-        Ruta hacia el archivo "Carrito.json".
-    articulos: dict
-        Diccionario con el artículo a agregar al carrito.
+    ruta : str
+        Ruta del archivo "Carrito.json" o "Articulos.json".
+    diccionarioNuevo: dict
+        Diccionario con las modificaciones a cargar.
     """
-    with open(rutaCarrito, "w", encoding = "utf-8") as file:
-        json.dump(articulo, file, indent = 4, ensure_ascii = False)
+    with open(ruta, "w", encoding = "utf-8") as file:
+        json.dump(diccionarioNuevo, file, indent = 4, ensure_ascii = False)
 
 
 def enviarMensaje(mensaje: str, conexion: socket.socket) -> None:
-    mensajeEnviar = {"mensaje": [{"error": f"{mensaje}"}]} # Se crea el JSON con el mensaje de error
+    """
+    Envia mensajes al cliente desde el servidor.
+
+    Esta función envia al cliente un mensaje específico desde el servidor.
+
+    Parameters
+    ---------
+    mensaje : str
+        Mensaje a enviar al cliente desde el servidor.
+    conexion : socket.socket
+        Nuevo socket que representa la conexión con un cliente en particular.
+    """
+    mensajeEnviar = {"mensaje": [{"error": f"{mensaje}"}]} # Se crea el JSON con el mensaje
 
     print(f"\n>> Se envia al cliente: {mensajeEnviar}") # Se imprime lo que se envía al cliente
 
@@ -82,7 +114,7 @@ def listarArticulos(ruta: str, conexion: socket.socket) -> None:
     # Verificamos si hay artículos en la tienda o en el carrito
     if ("articulos" in articulos):
         if (not articulos["articulos"]): # Si no hay artículos en la tienda
-            enviarMensaje("No hay artículos para mostrar", conexion)
+            enviarMensaje("Servidor: No hay artículos para mostrar.", conexion)
         else:
             print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
 
@@ -91,7 +123,7 @@ def listarArticulos(ruta: str, conexion: socket.socket) -> None:
 
     if ("carrito" in articulos):
         if (not articulos["carrito"]): # Si no hay artículos en el carrito
-            enviarMensaje("No hay artículos para mostrar", conexion)
+            enviarMensaje("Servidor: No hay artículos para mostrar.", conexion)
         else:
             print(f"\n>> Se envia al cliente: {articulos}") # Se imprime lo que se envía al cliente
 
@@ -109,7 +141,7 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
     Parameters
     ----------
     rutaArticulos : str
-        Ruta hacia del archivo "Articulos.json".
+        Ruta del archivo "Articulos.json".
     criterioBusqueda : str
         La marca o el nombre del artículo a buscar.
     conexion : socket.socket
@@ -132,9 +164,28 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
         respuesta = json.dumps(coincidencias).encode("utf-8") # Serializar el JSON
         conexion.send(respuesta)
     else: # Si no se encontro ningún artículo
-        enviarMensaje("No hay coincidencias", conexion)
+        enviarMensaje("Servidor: No hay coincidencias.", conexion)
 
 def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
+    """
+    Agrega un artículo al carrito de compras.
+
+    Esta función se encarga de agregar un artículo al carrito de compras, teniendo en cuenta
+    algunas consideraciones para esto.
+
+    Parameters
+    ----------
+    rutaArticulos : str
+        Ruta del archivo "Articulos.json".
+    rutaCarrito : str
+        Ruta del archivo "Carrito.json".
+    criterioBusqueda : str
+        El id o el nombre del artículo a agregar.
+    cantidad : int
+        Cantidad de ese artículo a agregar.
+    conexion : socket.sokect
+        Nuevo socket que representa la conexión con un cliente en particular.
+    """
     # Revisamos si el criterio de búsqueda fue el nombre o el id del artículo y ajustamos
     # el tipo de la varibale 'buscar'
     if (criterioBusqueda.isdigit()):
@@ -160,13 +211,13 @@ def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, 
 
     # Verificamos que se haya encontrado el artículo
     if (not articuloAgregar):
-        enviarMensaje("El artículo no existe en la tienda", conexion)
+        enviarMensaje("Servidor: El artículo no existe en la tienda.", conexion)
         
         return
 
     # Verificamos si el stock del artículo es suficiente
     if (cantidad > articuloAgregar["stock"]):
-        enviarMensaje(f"No hay suficiente stock para agregar {cantidad} artículos", conexion)
+        enviarMensaje(f"Servidor: No hay suficiente stock para agregar {cantidad} artículos.", conexion)
         
         return
     
@@ -174,7 +225,7 @@ def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, 
     for item in carrito["carrito"]:
         if (item["id"] == articuloAgregar["id"]): # Si ya esta el artículo en el carrito
             if (item["cantidad"] + cantidad > 5): # Si es menor qur 5
-                enviarMensaje("No pudes agregar más de cinco unidades del mismo artículo", conexion)
+                enviarMensaje("Servidor: No pudes agregar más de cinco unidades del mismo artículo.", conexion)
 
                 return
             
@@ -182,7 +233,7 @@ def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, 
             item["precioTotal"] = item["precio"] * item["cantidad"] # Actualizamos el precio total del artículo
 
             guardarJSON(rutaCarrito, carrito) # Actualizamos el artíclo en el carrito
-            enviarMensaje("El artículo se actualizó en el carrito", conexion)
+            enviarMensaje("Servidor: El artículo se actualizó en el carrito.", conexion)
 
             return
         
@@ -197,6 +248,23 @@ def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, 
     enviarMensaje("El artículo se agregó al carrito", conexion)
 
 def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
+    """
+    Elimina un artículo del carrito de compras.
+
+    Esta función se encarga de eliminar un artículo del carrito de compras, teniendo en cuenta
+    algunas consideraciones para esto.
+
+    Parameters
+    ----------
+    rutaCarrito : str
+        Ruta del archivo "Carrito.json".
+    criterioBusqueda : str
+        El id o el nombre del artículo a eliminar.
+    cantidad : int
+        Cantidad de ese artículo a eliminar.
+    conexion : socket.sokect
+        Nuevo socket que representa la conexión con un cliente en particular.
+    """
     # Revisamos si el criterio de búsqueda fue el nombre o el id del artículo y ajustamos
     # el tipo de la varibale 'buscar'
     if (criterioBusqueda.isdigit()):
@@ -221,13 +289,13 @@ def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, cone
 
     # Verificamos que se haya encontrado el artículo
     if (not articuloEliminar):
-        enviarMensaje("El artículo no existe en el carrito", conexion)
+        enviarMensaje("Servidor: El artículo no existe en el carrito.", conexion)
         
         return
     
     # Verificamos si la cantidad del artículo es suficiente
     if (cantidad > articuloEliminar["cantidad"]):
-        enviarMensaje(f"No hay suficiente artículos para eliminar {cantidad} artículos", conexion)
+        enviarMensaje(f"Servidor: No hay suficiente artículos para eliminar {cantidad} artículos.", conexion)
         
         return
     
@@ -239,14 +307,71 @@ def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, cone
                 item["precioTotal"] = item["precio"] * item["cantidad"] # Actualizamos el precio total del artículo
 
                 guardarJSON(rutaCarrito, carrito) # Actualizamos el artíclo en el carrito
-                enviarMensaje("El artículo se actualizó en el carrito", conexion)
+                enviarMensaje("Servidor: El artículo se actualizó en el carrito.", conexion)
             else: # Ya no hay artículos
                 carrito["carrito"].remove(item) # Eliminamos el artículo del carrito
                 
                 guardarJSON(rutaCarrito, carrito) # Actualizamos el artíclo en el carrito
-                enviarMensaje("El artículo se eliminó del carrito", conexion)
+                enviarMensaje("Servidor: El artículo se eliminó del carrito.", conexion)
 
             return
 
-def finalizarCompra():
-    print
+def finalizarCompra(rutaArticulos: str, rutaCarrito: str, conexion: socket.socket) -> None:
+    """
+    Finaliza la compra de los artículos en el carrito.
+
+    Esta función actualiza el stock de los artículos correspondientes en la tienda de acuerdo con los
+    agregados al carrito, después de finalizar la compra. También genera el recibo de compra, mostrando
+    los artículos comprados con sus respectivos datos y al final el precio total de la compra.
+
+    Parameters
+    ----------
+    rutaArticulos : str
+        Ruta del archivo "Articulos.json".
+    rutaCarrito : str
+        Ruta del archivo "Carrito.json".
+    conexion : socket.socket
+        Nuevo socket que representa la conexión con un cliente en particular.
+    """
+    articulos = cargarJSON(rutaArticulos) # Guardamos los artículos en un diccionario
+    carrito = cargarJSON(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
+    fecha = datetime.now().strftime("%Y-%m-%d") # Se obtiene la fecha actual
+    nombreArchivo = f"recibo_{fecha}.txt" # Se crea el nombre del recibo
+
+    totalPagar = 0
+
+    # Verificamos que haya algo en el carrito
+    if ("carrito" in carrito):
+        if (not carrito["carrito"]): # Si no hay artículos en el carrito
+            enviarMensaje("Servidor: La compra no puede proceder, el carrito esta vacío.", conexion)
+        else:
+            # Primero creamos el recibo de la compra
+            with open(nombreArchivo, "w", encoding = "utf-8") as file:
+                file.write("************ RECIBO DE COMPRA ************\n\n")
+                file.write(f"Escuela Superior de Cómputo a {fecha}\n\n")
+                for itemC in carrito["carrito"]:
+                    file.write(
+                        f"{itemC['nombre']} ({itemC['marca']}:)\n"
+                        f"- Cantidad: {itemC['cantidad']}\n"
+                        f"- Precio unitario: ${itemC['precio']} MXN\n"
+                        f"- Subtotal: ${itemC['precioTotal']} MXN\n\n"
+                    )
+
+                    totalPagar += itemC["precioTotal"]
+
+                file.write("==========================================\n")
+                file.write(f"TOTAL A PAGAR: ${totalPagar} MXN\n")
+                file.write("==========================================\n")
+
+            # Actualizamos el stock de los artículos
+            for itemC in carrito["carrito"]: # Iteramos el carrito
+                for itemA in articulos["articulos"]: # Iteramos los artículos
+                    if (itemC["id"] == itemA["id"]):
+                        itemA["stock"] -= itemC["cantidad"] # Restamos la cantidad del artículo al stock de este
+
+                        guardarJSON(rutaArticulos, articulos)
+
+            carrito["carrito"].clear() # Borramos los artículos del carrito
+            guardarJSON(rutaCarrito, carrito)
+
+            enviarMensaje(f"Servidor: El total a pagar de los artículos del carrito es ${totalPagar} MXN. Consulta el recibo de tu compra.", conexion)

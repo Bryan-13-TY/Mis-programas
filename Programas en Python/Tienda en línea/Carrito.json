@@ -1,13 +1,3 @@
 {
-    "carrito": [
-        {
-            "id": 4,
-            "tipo": "Abarrotes",
-            "nombre": "Frijol bayos",
-            "precio": 48,
-            "marca": "El Campeón",
-            "cantidad": 3,
-            "precioTotal": 144
-        }
-    ]
+    "carrito": []
 }

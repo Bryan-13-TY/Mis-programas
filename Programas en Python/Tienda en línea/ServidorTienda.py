@@ -1,7 +1,19 @@
+"""
+Servidor de la tienda en línea.
+
+Autores:
+    - García Escamilla Bryan Alexis
+    - Meléndez Macedonio Rodrigo
+
+Fecha: 26/09/2025
+
+Descripción:
+    Este archivo contiene la creación y el flujo del servidor de la tienda en línea.
+"""
+
 import socket, json
 from FuncionesServidor import obtenerRuta, listarArticulos, buscarArticulo
 from FuncionesServidor import agregarCarrito, eliminarCarrito, finalizarCompra
-
 
 rutaArticulos, rutaCarrito = obtenerRuta() # Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json)
 
@@ -51,7 +63,7 @@ while (True): # El servidor simpre activo
             elif (solicitud["accion"] == "ELIMINAR_CARRITO"):
                 eliminarCarrito(rutaCarrito, solicitud["articulo"], int(solicitud["cantidad"]), conn)
             elif (solicitud["accion"] == "FINALIZAR_COMPRA"):
-                finalizarCompra()
+                finalizarCompra(rutaArticulos, rutaCarrito, conn)
             else:
                 conn.send(b"Comando no reconocido")
 

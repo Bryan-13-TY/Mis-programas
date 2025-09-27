@@ -1,3 +1,16 @@
+"""
+Cliente de la tienda en línea.
+
+Autores:
+    - García Escamilla Bryan Alexis
+    - Meléndez Macedonio Rodrigo
+
+Fecha: 26/09/2025
+
+Descripción:
+    Este archivo contiene la creación y el flujo del cliente de la tienda en línea.
+"""
+
 import json, socket
 from FuncionesCliente import listarArticulos, limpiarTerminal, mostrarBusqueda
 from FuncionesCliente import mostrarMensaje, mostrarCarrito, esperarTecla
@@ -15,7 +28,7 @@ while (True): # Mientras no se cierre el cliente
 `---------------------------*/
 
 >> Elije una de las opciones
-      
+
 1.- Listar artículos de la tienda
 2.- Buscar un artículo
 3.- Carrito de compras
@@ -104,7 +117,6 @@ while (True): # Mientras no se cierre el cliente
                         articulosCarrito = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
 
                         if ("mensaje" in articulosCarrito): # El carrito esta vacío
-                            print()
                             mostrarMensaje(articulosCarrito)
                         else: # Si hay al menos un artículo en el carrito
                             mostrarCarrito(articulosCarrito)
@@ -125,15 +137,15 @@ while (True): # Mientras no se cierre el cliente
                         if (cantidad.isdigit() and (5 >= int(cantidad) > 0)):
                             solicitud = {"accion": "AGREGAR_CARRITO", "articulo": agregar, "cantidad": cantidad} # Creamos la solicitud como un diccionario
                             cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+
+                            datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
+                            confirmacion = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
+
+                            if ("mensaje" in confirmacion): # El carrito esta vacío
+                                print()
+                                mostrarMensaje(confirmacion)
                         else:
                             print("\n>> Ingresa una cantidad válida")
-
-                        datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
-                        confirmacion = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
-
-                        if ("mensaje" in confirmacion): # El carrito esta vacío
-                            print()
-                            mostrarMensaje(confirmacion)
 
                         # Esperamos una tecla
                         print("\n>> Presiona una tecla para continuar...")
@@ -151,15 +163,15 @@ while (True): # Mientras no se cierre el cliente
                         if (cantidad.isdigit() and int(cantidad) > 0):
                             solicitud = {"accion": "ELIMINAR_CARRITO", "articulo": eliminar, "cantidad": cantidad} # Creamos la solicitud como un diccionario
                             cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+
+                            datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
+                            confirmacion = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
+
+                            if ("mensaje" in confirmacion): # El carrito esta vacío
+                                print()
+                                mostrarMensaje(confirmacion)
                         else:
                             print("\n>> Ingresa una cantidad válida")
-
-                        datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
-                        confirmacion = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
-
-                        if ("mensaje" in confirmacion): # El carrito esta vacío
-                            print()
-                            mostrarMensaje(confirmacion)
 
                         # Esperamos una tecla
                         print("\n>> Presiona una tecla para continuar...")
@@ -182,6 +194,13 @@ while (True): # Mientras no se cierre el cliente
 `--------------------*/
 """)
             solicitud = {"accion": "FINALIZAR_COMPRA"} # Creamos la solicitud como un diccionario
+            cliente.send(json.dumps(solicitud).encode("utf-8")) # Enviamos al servidor la solicitud serializada
+            datosRecibidos = cliente.recv(4096).decode() # Recibe y deserializa los datos recibidos desde el servidor
+
+            totalPagar = json.loads(datosRecibidos) # Convierte los datos recibidos en JSON a un diccionario
+
+            if ("mensaje" in totalPagar):
+                mostrarMensaje(totalPagar)
 
             # Esperamos una tecla
             print("\n>> Presiona una tecla para continuar...")

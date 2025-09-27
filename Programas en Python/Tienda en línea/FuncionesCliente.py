@@ -1,3 +1,16 @@
+"""
+Funciones para el cliente de la tienda en línea.
+
+Autores:
+    - García Escamilla Bryan Alexis
+    - Meléndez Macedonio Rodrigo
+
+Fecha: 26/09/2025
+
+Descripción:
+    Este archivo contiene todas las funciones que usa el cliente de la tienda en línea.
+"""
+
 import os, msvcrt
 
 def listarTipo(articulos: dict, tipoArticulo: str) -> None:
@@ -102,7 +115,10 @@ def mostrarCarrito(carrito: dict) -> None:
         print(f"Precio: ${item['precio']} MXN")
         print(f"Marca: {item['marca']}")
         print(f"Cantidad: {item['cantidad']}")
-        print(f"Precio total: {item['precioTotal']}")
+        print(f"Precio total: ${item['precioTotal']} MXN")
 
 def esperarTecla():
+    """
+    Espera a que se presione cualquier tecla.
+    """
     return msvcrt.getch().decode("utf-8")  # devuelve la tecla como string
