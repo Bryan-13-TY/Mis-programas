@@ -5,7 +5,7 @@ Autores:
     - García Escamilla Bryan Alexis
     - Meléndez Macedonio Rodrigo
 
-Fecha: 26/09/2025
+Fecha: 28/09/2025
 
 Descripción:
     Este archivo contiene la creación y el flujo del cliente de la tienda en línea.

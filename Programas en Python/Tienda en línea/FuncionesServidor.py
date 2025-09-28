@@ -5,15 +5,16 @@ Autores:
     - García Escamilla Bryan Alexis
     - Meléndez Macedonio Rodrigo
 
-Fecha: 26/09/2025
+Fecha: 28/09/2025
 
 Descripción:
     Este archivo contiene todas las funciones que usa el servidor de la tienda en
     línea para poder satisfacer las solicitudes del cliente.
 """
 
-import os, json, socket
+import json, socket
 from datetime import datetime
+from pathlib import Path
 
 def obtenerRuta() -> tuple[str, str]:
     """
@@ -29,11 +30,11 @@ def obtenerRuta() -> tuple[str, str]:
         - **rutaArticulos** (str): Ruta completa del archivo "Articulos.json".
         - **rutaCarrito** (str): Ruta completa del archivo "Carrito.json".
     """
-    carpetaScript = os.path.dirname(os.path.abspath(__file__)) # Obtiene la ruta de la carpeta del script
-    rutaArticulos = os.path.join(carpetaScript, "articulos.json") # Construye la ruta completa hacia "Articulos.json"
-    rutaCarrito = os.path.join(carpetaScript, "Carrito.json") # Construye la ruta completa hacia "Carrito.json"
+    carpetaScript = Path(__file__).parent # Se obtiene la ruta de la carpeta del script
+    rutaArticulos = carpetaScript/"data"/"Articulos.json" # Construye la ruta completa hacia "Articulos.json"
+    rutaCarrito = carpetaScript/"data"/"Carrito.json" # Construye la ruta completa hacia "Carrito.json"
     
-    return rutaArticulos, rutaCarrito
+    return carpetaScript, rutaArticulos, rutaCarrito
 
 def cargarJSON(ruta: str) -> dict:
     """
@@ -88,19 +89,19 @@ def enviarMensaje(mensaje: str, conexion: socket.socket) -> None:
     conexion : socket.socket
         Nuevo socket que representa la conexión con un cliente en particular.
     """
-    mensajeEnviar = {"mensaje": [{"error": f"{mensaje}"}]} # Se crea el JSON con el mensaje
+    mensajeEnviar = {"mensaje": [{"msj": f"{mensaje}"}]} # Se crea el JSON con el mensaje
 
     print(f"\n>> Se envia al cliente: {mensajeEnviar}") # Se imprime lo que se envía al cliente
 
     respuesta = json.dumps(mensajeEnviar).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
     conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion" 
 
-def listarArticulos(ruta: str, conexion: socket.socket) -> None:
+def enviarArticulos(ruta: str, conexion: socket.socket) -> None:
     """
-    Lista los artículos de la tienda o del carrito de compras.
+    Envía los artículos de la tienda o del carrito de compras.
 
     Esta función veriica si hay artículos en la tienda o en el carrito de compras,
-    si los hay, los lista de lo contrario envía un mensaje de error.
+    si los hay los envía de lo contrario envía un mensaje de error.
 
     Parameters
     ----------
@@ -132,7 +133,7 @@ def listarArticulos(ruta: str, conexion: socket.socket) -> None:
 
 def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.socket) -> None:
     """
-    Busca un artículo que coincida con el nombre o marca indicada por el usaurio.
+    Busca un artículo que coincida con el nombre o marca indicada por el cliente.
 
     Esta función busca en los artículos de la tiendo aquel o aquellos que coincidan con la
     marca o nombre de un artículo. Si se encuentra una coincidencia agrega e artículo a un JSON,
@@ -261,7 +262,7 @@ def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, cone
     criterioBusqueda : str
         El id o el nombre del artículo a eliminar.
     cantidad : int
-        Cantidad de ese artículo a eliminar.
+        Cantidad de unidades de ese artículo a eliminar.
     conexion : socket.sokect
         Nuevo socket que representa la conexión con un cliente en particular.
     """
@@ -316,7 +317,7 @@ def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, cone
 
             return
 
-def finalizarCompra(rutaArticulos: str, rutaCarrito: str, conexion: socket.socket) -> None:
+def finalizarCompra(rutaArticulos: str, rutaCarrito: str, conexion: socket.socket, carpetaScript: str) -> None:
     """
     Finaliza la compra de los artículos en el carrito.
 
@@ -335,8 +336,8 @@ def finalizarCompra(rutaArticulos: str, rutaCarrito: str, conexion: socket.socke
     """
     articulos = cargarJSON(rutaArticulos) # Guardamos los artículos en un diccionario
     carrito = cargarJSON(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
-    fecha = datetime.now().strftime("%Y-%m-%d") # Se obtiene la fecha actual
-    nombreArchivo = f"recibo_{fecha}.txt" # Se crea el nombre del recibo
+    fecha = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") # Se obtiene la fecha actual
+    nombreArchivo = carpetaScript/"recibos"/f"recibo_{fecha}.txt" # Se crea el nombre del recibo
 
     totalPagar = 0
 
@@ -351,7 +352,7 @@ def finalizarCompra(rutaArticulos: str, rutaCarrito: str, conexion: socket.socke
                 file.write(f"Escuela Superior de Cómputo a {fecha}\n\n")
                 for itemC in carrito["carrito"]:
                     file.write(
-                        f"{itemC['nombre']} ({itemC['marca']}:)\n"
+                        f"{itemC['nombre']} ({itemC['marca']})\n"
                         f"- Cantidad: {itemC['cantidad']}\n"
                         f"- Precio unitario: ${itemC['precio']} MXN\n"
                         f"- Subtotal: ${itemC['precioTotal']} MXN\n\n"

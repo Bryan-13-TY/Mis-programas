@@ -5,17 +5,17 @@ Autores:
     - García Escamilla Bryan Alexis
     - Meléndez Macedonio Rodrigo
 
-Fecha: 26/09/2025
+Fecha: 28/09/2025
 
 Descripción:
     Este archivo contiene la creación y el flujo del servidor de la tienda en línea.
 """
 
 import socket, json
-from FuncionesServidor import obtenerRuta, listarArticulos, buscarArticulo
+from FuncionesServidor import obtenerRuta, enviarArticulos, buscarArticulo
 from FuncionesServidor import agregarCarrito, eliminarCarrito, finalizarCompra
 
-rutaArticulos, rutaCarrito = obtenerRuta() # Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json)
+carpetaScript, rutaArticulos, rutaCarrito = obtenerRuta() # Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json)
 
 # Cremos el servisor y lo conectamos al cliente
 servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Creamos al servidor (dirección IPv4, protocolo TCP)
@@ -53,17 +53,17 @@ while (True): # El servidor simpre activo
 
             # Revisamos las solicitudes
             if (solicitud["accion"] == "LISTAR_ARTICULOS"):
-                listarArticulos(rutaArticulos, conn)
+                enviarArticulos(rutaArticulos, conn)
             elif (solicitud["accion"] == "BUSCAR_ARTICULOS"):
                 buscarArticulo(rutaArticulos, solicitud["buscar"], conn)
             elif (solicitud["accion"] == "MOSTRAR_CARRITO"):
-                listarArticulos(rutaCarrito, conn)
+                enviarArticulos(rutaCarrito, conn)
             elif (solicitud["accion"] == "AGREGAR_CARRITO"):
                 agregarCarrito(rutaArticulos, rutaCarrito, solicitud["articulo"], int(solicitud["cantidad"]), conn)
             elif (solicitud["accion"] == "ELIMINAR_CARRITO"):
                 eliminarCarrito(rutaCarrito, solicitud["articulo"], int(solicitud["cantidad"]), conn)
             elif (solicitud["accion"] == "FINALIZAR_COMPRA"):
-                finalizarCompra(rutaArticulos, rutaCarrito, conn)
+                finalizarCompra(rutaArticulos, rutaCarrito, conn, carpetaScript)
             else:
                 conn.send(b"Comando no reconocido")
 

@@ -5,7 +5,7 @@ Autores:
     - García Escamilla Bryan Alexis
     - Meléndez Macedonio Rodrigo
 
-Fecha: 26/09/2025
+Fecha: 28/09/2025
 
 Descripción:
     Este archivo contiene todas las funciones que usa el cliente de la tienda en línea.
@@ -76,6 +76,7 @@ def mostrarBusqueda(busqueda: dict) -> None:
         Diccionario con los artículos encontrados.
     """
     print("\nArtículo(s) encontrado(s):")
+    
     for item in busqueda["articulos"]:
         print(f"\nId: {item['id']}")
         print(f"Tipo: {item['tipo']}")
@@ -93,9 +94,8 @@ def mostrarMensaje(mensaje: dict) -> None:
     mensaje : dict
         Diccionario de un solo elemento con el mensaje.
     """
-
     for msj in mensaje["mensaje"]:
-        print(f">> {msj['error']}")
+        print(f">> {msj['msj']}")
 
 def mostrarCarrito(carrito: dict) -> None:
     """

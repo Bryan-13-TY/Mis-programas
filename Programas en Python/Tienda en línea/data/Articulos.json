@@ -6,7 +6,7 @@
             "nombre": "Tortillas de maíz",
             "precio": 28,
             "marca": "Maseca",
-            "stock": 115
+            "stock": 108
         },
         {
             "id": 2,
@@ -14,7 +14,7 @@
             "nombre": "Pan blanco",
             "precio": 45,
             "marca": "Bimbo",
-            "stock": 80
+            "stock": 69
         },
         {
             "id": 3,
@@ -22,7 +22,7 @@
             "nombre": "Arroz",
             "precio": 34,
             "marca": "La Sierra",
-            "stock": 60
+            "stock": 52
         },
         {
             "id": 4,
@@ -30,7 +30,7 @@
             "nombre": "Frijol bayos",
             "precio": 48,
             "marca": "El Campeón",
-            "stock": 40
+            "stock": 35
         },
         {
             "id": 5,
@@ -38,7 +38,7 @@
             "nombre": "Café molido",
             "precio": 85,
             "marca": "Café Punta del Cielo",
-            "stock": 30
+            "stock": 23
         },
         {
             "id": 6,
@@ -78,7 +78,7 @@
             "nombre": "Agua de sabores",
             "precio": 22,
             "marca": "Jumex",
-            "stock": 130
+            "stock": 126
         },
         {
             "id": 11,
@@ -158,7 +158,7 @@
             "nombre": "Galletas Marías",
             "precio": 28,
             "marca": "Gamesa",
-            "stock": 150
+            "stock": 141
         },
         {
             "id": 21,
@@ -166,7 +166,7 @@
             "nombre": "Chocolates Abuelita",
             "precio": 55,
             "marca": "La Abuelita",
-            "stock": 80
+            "stock": 78
         },
         {
             "id": 22,
@@ -174,7 +174,7 @@
             "nombre": "Jabón de tocador",
             "precio": 18,
             "marca": "Zote",
-            "stock": 200
+            "stock": 197
         },
         {
             "id": 23,
@@ -182,7 +182,7 @@
             "nombre": "Pasta dental",
             "precio": 35,
             "marca": "Colgate",
-            "stock": 140
+            "stock": 136
         },
         {
             "id": 24,
@@ -190,7 +190,7 @@
             "nombre": "Shampoo",
             "precio": 68,
             "marca": "Sedal",
-            "stock": 85
+            "stock": 80
         },
         {
             "id": 25,
@@ -198,7 +198,7 @@
             "nombre": "Crema humectante",
             "precio": 95,
             "marca": "CeraVe",
-            "stock": 35
+            "stock": 30
         },
         {
             "id": 26,
@@ -238,7 +238,7 @@
             "nombre": "Cloro",
             "precio": 22,
             "marca": "Cloralex",
-            "stock": 140
+            "stock": 135
         },
         {
             "id": 31,
@@ -262,7 +262,7 @@
             "nombre": "Bolsas para basura",
             "precio": 55,
             "marca": "BioBag",
-            "stock": 70
+            "stock": 68
         },
         {
             "id": 34,
