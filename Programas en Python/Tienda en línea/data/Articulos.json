@@ -6,7 +6,7 @@
             "nombre": "Tortillas de maíz",
             "precio": 28,
             "marca": "Maseca",
-            "stock": 108
+            "stock": 104
         },
         {
             "id": 2,
@@ -78,7 +78,7 @@
             "nombre": "Agua de sabores",
             "precio": 22,
             "marca": "Jumex",
-            "stock": 126
+            "stock": 124
         },
         {
             "id": 11,
@@ -158,7 +158,7 @@
             "nombre": "Galletas Marías",
             "precio": 28,
             "marca": "Gamesa",
-            "stock": 141
+            "stock": 139
         },
         {
             "id": 21,
@@ -270,7 +270,7 @@
             "nombre": "Esponja para platos",
             "precio": 28,
             "marca": "Scotch-Brite",
-            "stock": 130
+            "stock": 126
         },
         {
             "id": 35,
