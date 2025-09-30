@@ -15,7 +15,8 @@ import socket, json
 from FuncionesServidor import obtenerRuta, enviarArticulos, buscarArticulo
 from FuncionesServidor import agregarCarrito, eliminarCarrito, finalizarCompra
 
-carpetaScript, rutaArticulos, rutaCarrito = obtenerRuta() # Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json)
+# Obetenos las rutas de los archivos JSON (Articulos.json, Carrito.json) y de la carpeta del script
+carpetaScript, rutaArticulos, rutaCarrito = obtenerRuta()
 
 # Cremos el servisor y lo conectamos al cliente
 servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # Creamos al servidor (dirección IPv4, protocolo TCP)
@@ -26,7 +27,7 @@ print(">> Servidor en espera de clientes...")
 
 # Aquí empieza el servidor a operar
 while (True): # El servidor simpre activo
-    conn, addr = servidor.accept() # Espeta que un cliente se conecte al socket del servidor (conexión con cliente, dirección del cliente)
+    conn, addr = servidor.accept() # Espera que un cliente se conecte al socket del servidor (conexión con cliente, dirección del cliente)
 
     print(f"\n>> Cliente conectado desde: {addr}")
 
