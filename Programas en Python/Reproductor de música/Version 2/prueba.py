@@ -24,9 +24,6 @@ def listarCanciones() -> list[str]:
     rutaPistas = Path("pistas")
     cancionesLista = [f.name for f in rutaPistas.glob("*.mp3")]
 
-    #for file in rutaPistas.glob("*.mp3"):
-    #    print(file)
-
     return cancionesLista
 
 def interfazReproductor(rutaCancion: str) -> None:
