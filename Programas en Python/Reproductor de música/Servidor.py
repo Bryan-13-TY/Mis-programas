@@ -57,7 +57,7 @@ def enviarCancion_gbn(sock: socket.socket, cliente_addr: tuple, filepath: Path, 
     first_num_seq_ACKed = 0 # Número de secuencia del primer paquete no confirmado (ACKed)
     sgt_num_seq = 0 # Número de secuencia del siguiente paquete a enviar (0, 1, 2, 3, ...)
 
-    sock.settimeout(1.0) # Tiempo límite para recibir ACKs (al expirar el servidor retransmite)
+    sock.settimeout(10) # Tiempo límite para recibir ACKs (al expirar el servidor retransmite)
 
     # Enviar nombre, tamaño y número total de paquetes del archivo (informativo)
     meta_datos = f"FILEINFO|{filepath.name}|{tamano_archivo}|{total_paquetes}"
@@ -107,11 +107,13 @@ def enviarCancion_gbn(sock: socket.socket, cliente_addr: tuple, filepath: Path, 
             print(f">> Perdida del paquete: Se reenvia desde el paquete [{first_num_seq_ACKed}]")
 
             sgt_num_seq = first_num_seq_ACKed # Retroceder paquete
+            
+            continue # Reintenta 
+
+    print("\n>> Transferencia de la canción completa")
 
     # Todos los paquetes se enviaron correctamente
     sock.sendto(b"FIN", cliente_addr) # Se envia la confirmación del termino de la transferencia de la canción
-
-    print("\n>> Transferencia de la canción completa")
 
 def main():
     """
