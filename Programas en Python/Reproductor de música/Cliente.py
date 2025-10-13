@@ -142,7 +142,7 @@ def main():
     sock.bind(("", 0))
     sock.settimeout(5.0) # Tiempo límite para recibir la lista de canciones
 
-    print(">> Se solicita la lista de canciones al servidor...")
+    print(">> Se solicita la lista de canciones al servidor...\n")
     lista_canciones = pedirLista(sock) # Se obtiene la lista de canciones
 
     if (not lista_canciones): # Si no hay canciones
@@ -150,10 +150,12 @@ def main():
 
         return
     
+    print("Canciones disponibles:\n")
+
     for index, cancion in enumerate(lista_canciones, start=1): # Se muestra la lista de canciones
         print(f"{index}.- {cancion}")
 
-    opcion = input("Escribe el número de la canción a reproducir: ").strip()
+    opcion = input("\nEscribe el número de la canción a reproducir: ").strip()
 
     if (not opcion.isdigit() or int(opcion) < 1 or int(opcion) > len(lista_canciones)):
         print("\n>> Opción inválida")
@@ -171,10 +173,10 @@ def main():
 
         return
     
+    print("\n>> Reproducción iniciada")
+
     # Llama al reproductor
     reproductor(ruta_temporal, cancion)
-
-    print("\n>> Reproducción iniciada")
 
 if __name__ == "__main__":
     main()

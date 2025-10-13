@@ -54,7 +54,7 @@ def reproductor(ruta_cancion: str, nombre_cancion: str) -> None:
         """
         volumen = float(valor)
 
-        pygame.mixer.music.set_volume(valor)
+        pygame.mixer.music.set_volume(volumen)
         label_volume.config(text=f"Volumen al {int(volumen * 100)}%")
 
     try:
