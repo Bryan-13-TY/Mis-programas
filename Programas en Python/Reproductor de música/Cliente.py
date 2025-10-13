@@ -9,7 +9,7 @@ ENCABEZADO_SIZE = 4 # Tamaño en bytes del encabezado
 
 def pedirLista(sock: socket.socket) -> list[str]:
     sock.sendto(b"LIST", SERVER) # Se envía el mensaje al servidor para pedir la lista de canciones
-    data, _=sock.recvfrom(65536) # Espera la respuesta del servidor
+    data, _ = sock.recvfrom(65536) # Espera la respuesta del servidor
     canciones = data.decode().split("::") if data else [] # Se convierte la respuesta en lista
     lista_canciones = [s for s in canciones if s] # Lista final con las canciones
 
