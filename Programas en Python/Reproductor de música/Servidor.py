@@ -57,7 +57,7 @@ def enviarCancion_gbn(sock: socket.socket, cliente_addr: tuple, filepath: Path, 
     first_num_seq_ACKed = 0 # Número de secuencia del primer paquete no confirmado (ACKed)
     sgt_num_seq = 0 # Número de secuencia del siguiente paquete a enviar (0, 1, 2, 3, ...)
 
-    sock.settimeout(10) # Tiempo límite para recibir ACKs (al expirar el servidor retransmite)
+    sock.settimeout(360) # Tiempo límite para recibir ACKs (al expirar el servidor retransmite)
 
     # Enviar nombre, tamaño y número total de paquetes del archivo (informativo)
     meta_datos = f"FILEINFO|{filepath.name}|{tamano_archivo}|{total_paquetes}"
@@ -102,7 +102,7 @@ def enviarCancion_gbn(sock: socket.socket, cliente_addr: tuple, filepath: Path, 
                 print(">> El cliente solicitó detener la transferencia")
 
                 return # Se detiene la transferencia del paquete
-        except sock.timeout: # Si el tiempo de espera para recibir ACKs se excede
+        except socket.timeout: # Si el tiempo de espera para recibir ACKs se excede
             # Se considera que el paquete se perdio (no se recibe ACK), se reenvian los paquetes desde el último no confirmado
             print(f">> Perdida del paquete: Se reenvia desde el paquete [{first_num_seq_ACKed}]")
 

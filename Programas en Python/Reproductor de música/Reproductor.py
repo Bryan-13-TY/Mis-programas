@@ -17,14 +17,14 @@ def reproductor(ruta_cancion: str, nombre_cancion: str) -> None:
     """
     def reproducir() -> None:
         """
-        Reproduce el archivo .pm3.
+        Reproduce el archivo .mp3.
         """
         pygame.mixer.music.play()
         label_state.config(text="🎶 Reproduciendo canción...")
 
     def pausar() -> None:
         """
-        Pausa la reproducción del archivo .pm3.
+        Pausa la reproducción del archivo .mp3.
         """
         pygame.mixer.music.pause()
         label_state.config(text="Canción en pausa")
@@ -91,12 +91,12 @@ def reproductor(ruta_cancion: str, nombre_cancion: str) -> None:
     btn_stop = tk.Button(frame_btns, text="⏹️ Detener", command=detener, state="normal" if archivoCargado else "disabled")
     btn_stop.grid(row=0, column=3, padx=5)
 
-    label_volume = tk.Label(ventana, text="Volumen al 70%")
+    label_volume = tk.Label(ventana, text="Volumen al 50%")
     label_volume.pack(pady=5)
 
-    controlVolumen = ttk.Scale(ventana, from_=0, to=1, orient="horizontal", value=0.7, command=ajustarVolumen, length=250)
+    controlVolumen = ttk.Scale(ventana, from_=0, to=1, orient="horizontal", value=0.5, command=ajustarVolumen, length=250)
     controlVolumen.pack()
-    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.set_volume(0.5)
 
     # Ejecutamos la ventana del reproductor
     ventana.mainloop()
