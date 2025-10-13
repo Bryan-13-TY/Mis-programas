@@ -25,7 +25,7 @@ def listarCanciones() -> list[str]:
     
     listaCanciones = [f.name for f in carpetaCanciones.glob("*.mp3")] # Guarda los nombres de las canciones en la lista
 
-    return listaCanciones # Devuelve solo nos nombres de las canciones
+    return listaCanciones # Devuelve solo los nombres de las canciones
 
 def enviarArchivo_GBN(sock: socket.socket, clientAddr: tuple, filepath: Path, window_size = 6) -> None:
     """
@@ -45,7 +45,7 @@ def enviarArchivo_GBN(sock: socket.socket, clientAddr: tuple, filepath: Path, wi
     window_size : int
         Número máximo de paquetes "en vuelo" (tamaño de la ventana GBN).
     """
-    filesize = filepath.stat().st_size # Se calcula el tamaño del archivo ,pm3
+    filesize = filepath.stat().st_size # Se calcula el tamaño del archivo mp3
     total_packets = (filesize + PACKET_PAYLOAD - 1) // PACKET_PAYLOAD # Se calcula el tamaño del paquete
 
     # Leer todo el archivo en memoria
@@ -97,7 +97,7 @@ def enviarArchivo_GBN(sock: socket.socket, clientAddr: tuple, filepath: Path, wi
                 print("Cliente solicitó detener la transferencia") 
 
                 return
-        except sock.timeout: # Si recvfrom escede 1 segundo
+        except sock.timeout: # Si recvfrom excede 1 segundo
             # Se considera la perdida de ACK, reenviar desde base (Go-Back-N)
             print(f"Timeout en servidor: Reenviando desde paquete {base}")
 
