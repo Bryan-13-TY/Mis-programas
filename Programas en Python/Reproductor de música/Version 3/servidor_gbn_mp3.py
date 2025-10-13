@@ -18,7 +18,7 @@ def listarCanciones() -> list[str]:
     list[str]
         Lista de los nombres de las canciones en la carpeta 'pistas'.
     """
-    carpetaCanciones = Path(__file__).parent/"pistas" # Construir la ruta a la carpetas de las canciones
+    carpetaCanciones = Path(__file__).parent/"pistas" # Construir la ruta a la carpeta de las canciones
 
     if (not carpetaCanciones.exists()):
         return [] # Devuelve una lista vacía si no hay canciones
