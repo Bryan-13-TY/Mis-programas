@@ -35,7 +35,7 @@ def enviarCancion_gbn(sock: socket.socket, cliente_addr: tuple, filepath: Path, 
 
     Parameters
     ----------
-    sock : socket.soscket
+    sock : socket.socket
         Socket UDP ya creado y enlazado.
     clienteAddr : tuple
         Tupla (ip, puerto) del cliente destino.

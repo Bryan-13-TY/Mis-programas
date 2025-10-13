@@ -23,7 +23,7 @@ def recibeCancion_gbn(sock: socket.socket, nombre_cancion: str, timeout=2.0, win
     ----------
     sock : socket.socket
         Socket UDP ya creado y enlazado.
-    nombre_cancion : strr
+    nombre_cancion : string
         Nombre de la canción elegida por el cliente.
     timeout : float
         Tiempo límite para recibir respuesta del servidor.
