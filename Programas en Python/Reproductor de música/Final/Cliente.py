@@ -146,7 +146,7 @@ def main():
     lista_canciones = pedirLista(sock) # Se obtiene la lista de canciones
 
     if (not lista_canciones): # Si no hay canciones
-        print("\n>> No hay canciones disponibles o no se puedo obtener la lista")
+        print("\n>> No hay canciones disponibles o no se pudó obtener la lista")
 
         return
     
