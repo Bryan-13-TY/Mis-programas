@@ -115,7 +115,7 @@ def enviarCancion_gbn(sock: socket.socket, cliente_addr: tuple, filepath: Path, 
     # Todos los paquetes se enviaron correctamente
     sock.sendto(b"FIN", cliente_addr) # Se envia la confirmación del termino de la transferencia de la canción
 
-def main():
+def main() -> None:
     """
     Código principal del servidor.
     """    
