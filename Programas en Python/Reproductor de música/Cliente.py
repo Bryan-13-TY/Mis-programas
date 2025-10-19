@@ -15,7 +15,7 @@ def pedirLista(sock: socket.socket) -> list[str]:
 
     return lista_canciones
 
-def recibeCancion_gbn(sock: socket.socket, nombre_cancion: str, timeout=2.0, window_size=6) -> None:
+def recibeCancion_gbn(sock: socket.socket, nombre_cancion: str, timeout=2.0, window_size=6) -> str:
     """
     Recibe el archivo .mp3.
 

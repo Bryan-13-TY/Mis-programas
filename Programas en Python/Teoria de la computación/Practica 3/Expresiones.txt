@@ -1,0 +1,44 @@
+EPRESIONES VALIDAS:
+
+A2 = A1 + 12 + C5 ;
+AB = A * B / 100 - 59 ;
+ABC = ( 340 % 2 ) + ( 12 - C ) ;
+AC = 0312 + 0x12AB * ( 5.12E+12 + B ) ;
+Var1 = Var2 = Var3 = 8 ;
+VAR = ( CatA + ( ( CatA + CatB ) * CatC ) ) * ( CatD - CatF ) ;
+A = ( ( ( B + 10 ) * ( H % ( 3 * 10 * J ) ) ) + ( ( A + ( D * E ) ) / 32 ) ) ;
+Var = ( Var ) ;
+Var1 = Var2 = Var3 * 10 ;
+
+EXPRESIONES NO VALIDAS:
+
+3 = A2 = 1 + 12 + C5 ;
+AB = A * * B / 100 - 59 ;
+ABC ( 340 % 2 ) ;
+5var = % * dat ;
+x = int * 2 + x ;
+info = cateto1 + cateto2 + ( ) - ) * ( ;
+VAR = ( CatA + ( CatA + CatB ) * CatC ) ) * ( CatD - CatF ) ;
+VAR = ( CatA + ( ( CatA + CatB ) * CatC ) ) * ( CatD - CatF ;
+temp = 0284 * 0x1X2 - 3.14EE1.3 ;
+typedef = val1 % val2 ;
+Val = { H * 1 } ;
+Var1 = Var2 * 3 = Var3 * 10 ;
+Var1 = Var2 * Var4 = Var3 * 10 ;
+
+COMBINACIONES VALIDAS:
+
+Variable-Operador-Variable -> (VOV) -> Var * Var
+Variable-Operador-Constante -> (VOC) -> Var * 2
+Variable-Operador-ParentesisA -> (VOY) -> Var * (
+Variable-Asignacion-Variable -> (VAV) -> Var = Var1
+Variable-Asignacion-Constante -> (VAC) -> Var = 3
+Variable-Asignacion-ParentesisA -> (VAY) -> Var = (
+
+Constante-Operador-Variable -> (COV) -> 3 * Var
+Constante-Operador-Constante -> (COC) -> 3 * 3
+Constante-Operador-ParentesisA -> (COY) -> 3 * (
+
+ParentesisC-Operador-ParentesisA -> (ZOY) -> ) * (
+ParentesisC-Operador-Variable -> (ZOV) -> ) * Var
+ParentesisC-Operador-Constante -> (ZOC) -> ) * 3

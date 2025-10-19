@@ -1,0 +1,19 @@
+public class EjemploPracticaAnalizador {
+    public static void main ( String [ ] args ) {
+        int octal1 = -0123 , octal2 = 031 ;
+        short dato = 0x12A12 ;
+        double PI = 3.1416 , CteGrav = -6.674E-19 ;
+        float prom = ( long ) 0.0 ;
+        double v@al ;
+        val = val ;
+        Calculos
+        class ( int i = 1 ; i < 100 ; i ++ ) {
+            prom += i ;
+        }
+        double pot = 7.34E+12 ;
+        val = CteGrav * dato * pot ; // Valor = 0xx78
+        System.out.println ( " Prom = " + ( prom / PI ) + " Result = " + ( val * 0xAB ) ) ; 
+        !php? 
+        insert into tables values
+    }
+}
