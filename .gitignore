@@ -2,3 +2,37 @@
 .vscode/
 
 # ===== Archivos del sistema ====
+.DS_Store
+Thumbs.db
+
+# ===== Archivos compilados de C =====
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.so
+*.dll
+
+# ===== Carpetas de compilación =====
+build/
+bin/
+dist/
+Debug/
+Release/
+
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.env
+.env/
+venv/
+venv*/
+*.egg-info/
+
+# ===== Otros =====
+*.log
+*.tmp
