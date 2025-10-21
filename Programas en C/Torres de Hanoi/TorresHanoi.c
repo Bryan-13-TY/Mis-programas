@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <conio.h>
 
+#define VERSION 1.0
+
 void Hanoi(int num_disks, int *num_movements, char origin, char auxiliar, char destiny);
 
 // Programa principal
