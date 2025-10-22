@@ -6,13 +6,15 @@
  * También contiene las funciones para recorrer el árbol InOrder, PreOrder y PosOrder, así como la función para mostrar el árbol.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-08-20
+ * @date 2025-10-21
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
 #include <stdbool.h>
+
+#define VERSION "1.0"
 
 typedef struct Node {
     int num;
