@@ -7,14 +7,14 @@
  * @note No se ha compilado la última versión de este código. Solo funciona en Windows.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-08-14
+ * @date 2025-10-21
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
 
-#define VERSION 1.0
+#define VERSION "1.2"
 
 void Hanoi(int num_disks, int *num_movements, char origin, char auxiliar, char destiny);
 
@@ -60,7 +60,7 @@ int main(int argc, char const *argv[]) {
 /**
  * @brief Resuelve recursivamente las torres de Hanoi.
  * 
- * Esta función resuelve recursivamente las torres de Hanoi imprimiendo los
+ * Esta función resuelve recursivamente el problema de las torres de Hanoi imprimiendo los
  * movimientos correspondientes para ello.
  * 
  * @param num_disks Número de discos a resolver.
