@@ -16,7 +16,7 @@
  * @note No se ha compilado la última versión de este código. Solo funciona en Windows.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-08-12
+ * @date 2025-10-21
  */
 
 #include <stdio.h>
@@ -24,6 +24,7 @@
 #include <conio.h>
 #include <string.h>
 
+#define VERSION "1.0"
 #define MIN_WIDTH 7
 #define MAX_WIDTH 302 // Aumentar de 4 en 4
 
