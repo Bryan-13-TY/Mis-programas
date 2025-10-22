@@ -6,7 +6,7 @@
  * si la cadena esta balanceada o no.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-09-05
+ * @date 2025-10-21
  */
 
 #include <stdio.h>
@@ -14,6 +14,8 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <string.h>
+
+#define VERSION "1.0"
 
 // Estructra para la pila
 typedef struct Node_Stack {
