@@ -9,13 +9,14 @@
  * @note No se ha compilado la última versión de este código. Solo funciona en Windows.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-08-14 
+ * @date 2025-10-21 
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
 
+#define VERSION "1.0"
 #define SIZE 10 // Tamaño de las matrices
 
 void LeerMatrices(float matrix_1[SIZE][SIZE], float matrix_2[SIZE][SIZE]);
@@ -31,8 +32,7 @@ void Resultados(char name_file[]);
 // Programa principal
 int main(int argc, char const *argv[]) {
     int op;
-    float matrix_1[SIZE][SIZE] , matrix_2[SIZE][SIZE], matrix[SIZE][SIZE] = {0};
-
+    float matrix_1[SIZE][SIZE], matrix_2[SIZE][SIZE], matrix[SIZE][SIZE] = {0};
 
     do {
         system("cls");
@@ -401,7 +401,7 @@ void Inversa(float matrix[SIZE][SIZE], float matrixi[SIZE][SIZE], char name_file
  * @param name_file Nombre del archivo de donde se lee la matriz a mostrar.
  */
 void Resultados(char name_file[]) {
-    FILE *output_file = fopen(name_file,"r");
+    FILE *output_file = fopen(name_file, "r");
     char line[256];
 
     if (output_file == NULL) {
