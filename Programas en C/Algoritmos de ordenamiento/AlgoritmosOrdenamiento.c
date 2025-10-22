@@ -15,6 +15,7 @@
 #include <conio.h>
 #include <time.h>
 
+#define VERSION "1.0"
 #define SIZE 30 // Tamaño del arreglo
 
 void LLenarArreglo(int array[SIZE]);
