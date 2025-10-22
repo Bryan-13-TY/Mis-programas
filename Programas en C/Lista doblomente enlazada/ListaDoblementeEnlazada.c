@@ -10,12 +10,14 @@
  * @note No se ha compilado la última versión de este código. Solo funciona en Windows.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-08-13
+ * @date 2025-10-21
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+
+#define VERSION "1.0"
 
 typedef struct Node {
     int num; // Donde se guarda el valor numérico del nodo
