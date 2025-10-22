@@ -7,7 +7,7 @@
  * se considera la división por cero.
  * 
  * @author García Escamilla Bryan Alexis
- * @date 2025-09-08
+ * @date 2025-10-21
  */
 
 #include <stdio.h>
@@ -18,6 +18,7 @@
 #include <ctype.h>
 #include <math.h>
 
+#define VERSION "1.0"
 #define MAX_TOKENS_LEN 10
 #define MAX_TOKENS 50
 
