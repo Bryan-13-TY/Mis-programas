@@ -3,7 +3,7 @@ Gramática independiente de contexto.
 
 Autor: García Escamilla Bryan Alexis
 
-Fecha: 18/10/2025
+Fecha: 26/10/2025
 
 Descripción:
     Este archivo evalúa una expresión numérica en C, usando gramáticas independientes de contexto.
@@ -55,6 +55,38 @@ def esperar_tecla():
     Espera a que se presione cualquier tecla.
     """
     return msvcrt.getch().decode("utf-8")  # devuelve la tecla como string
+
+def separar_tokens(expresion: str) -> list[str]:
+    """
+    Separa la expresión por tokens.
+
+    Parameters
+    ----------
+    expresion : str
+        Expresión ingresada por el usuario.
+
+    Returns
+    -------
+    list[str]
+        Lista con los tokens de la expresión.
+    """
+    tokens = []
+    buffer = ""
+
+    for caracter in expresion:
+        if (caracter.isdigit() or caracter.isalpha()): # Si es un número o una letra
+            buffer = buffer + caracter # Se acumula
+        elif (caracter == " "):
+            continue # Se ignoran los espacios en blanco
+        else: # Si es un operador o un paréntesis
+            if (buffer != ""): # Si hay un número o variable en construcción
+                tokens.append(buffer)
+                buffer = ""
+                tokens.append(caracter)
+            else:
+                tokens.append(caracter)
+
+    return tokens
 
 def arbol_derivacion(expresion_gramatica: str) -> None:
     """
@@ -111,13 +143,13 @@ def arbol_derivacion(expresion_gramatica: str) -> None:
     except ValueError as error:
         print(f"\nNo se puede analizar la expresión: {error}")
 
-def filtro_1(expresion: list[str], hex: list[str]) -> tuple[str, str, int]:
+def filtro_1(tokens: list[str], hex: list[str]) -> tuple[str, str, int]:
     """
     Clasifica los tokens de la expresión.
 
     Parameters
     ----------
-    expresion : list[str]
+    tokens : list[str]
         Lista con la expresión separada por tokens.
     hex : list[str]
         Lista con los números en hexadecimal.
@@ -149,7 +181,7 @@ def filtro_1(expresion: list[str], hex: list[str]) -> tuple[str, str, int]:
     expresion_gramatica = "" # Expresión e evaluar a mandar a validar por la gramática
     key = 0 # Llave para pasar de filtro 1 al filtro 2
 
-    for token in expresion:
+    for token in tokens:
         if (token.isalpha() and token in reservadas): # Si es una palabra reservada
             if (token in reservadas_tipo): # Si es una palabra reservada con valor númerico
                 expresion_automata = expresion_automata + 'H'
@@ -252,11 +284,11 @@ def main() -> None:
         match(opcion):
             case '1':
                 expresion = input("\nIngresa una expresión: ").strip()
-                expresion_lista = expresion.split(" ") # Tokens de la expresión
+                tokens = separar_tokens(expresion) # Tokens de la expresión
 
-                print(f"\nTokens de la expresión: {expresion_lista}")
+                print(f"\nTokens de la expresión: {tokens}")
 
-                expresion_automata, expresion_gramatica, key = filtro_1(expresion_lista, hex)
+                expresion_automata, expresion_gramatica, key = filtro_1(tokens, hex)
     
     
                 print(f"\nLa expresión a validar por el autómata es: {expresion_automata}")
@@ -268,9 +300,11 @@ def main() -> None:
                 print("\n>> Presiona una tecla para continuar...")
                 tecla = esperar_tecla()
             case '2':
-                print("\n>> La opción no es válida")
+                print("\n>> Gracias por probar el programa, vuelva pronto")
 
                 break
+            case _:
+                print("\n>> La opción no es válida")
 
 if __name__ == "__main__":
     main()
