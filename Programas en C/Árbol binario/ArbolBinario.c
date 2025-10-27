@@ -6,6 +6,7 @@
  * También contiene las funciones para recorrer el árbol InOrder, PreOrder y PosOrder, así como la función para mostrar el árbol.
  * 
  * @author García Escamilla Bryan Alexis
+ * @author Programación ATS
  * @date 2025-10-21
  */
 
@@ -86,19 +87,25 @@ int main(int argc, char const *argv[]) {
                 break;
             case 4:
                 printf("\n__RECORRIDO EN PRE-ORDER__");
-                printf("\n\nRecorrido: ");
+                printf("\n\nArbol binario:\n\n");
+                MostrarArbol(root, counter);
+                printf("\nRecorrido: ");
                 PreOrder(root);
                 getch();
                 break;
             case 5:
                 printf("\n__RECORRIDO EN IN-ORDER__");
-                printf("\n\nRecorrido: ");
+                printf("\n\nArbol binario:\n\n");
+                MostrarArbol(root, counter);
+                printf("\nRecorrido: ");
                 InOrder(root);
                 getch();
                 break;
             case 6:
                 printf("\n__RECORRIDO EN POS-ORDER__");
-                printf("\n\nRecorrido: ");
+                printf("\n\nArbol binario:\n\n");
+                MostrarArbol(root, counter);
+                printf("\nRecorrido: ");
                 PosOrder(root);
                 getch();
                 break;
