@@ -20,6 +20,7 @@ bin/
 dist/
 Debug/
 Release/
+audio/
 
 # ===== Python =====
 __pycache__/
@@ -28,6 +29,7 @@ __pycache__/
 *.pyd
 *.log
 *.env
+*.wav
 .env/
 venv/
 venv*/
