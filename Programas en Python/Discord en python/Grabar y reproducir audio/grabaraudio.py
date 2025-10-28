@@ -15,7 +15,7 @@ rutaAudio.parent.mkdir(parents=True, exist_ok=True)
 duracion = 5 # Segundos 
 frecuencia = 44100 # Hz (calidad estándar de audio)
 
-print("Grabando... Habla ahora")
+print("🎤 Grabando... Habla ahora")
 audio = sd.rec(int(duracion * frecuencia), samplerate=frecuencia, channels=2)
 sd.wait() # Esperar a que termine la grabación
 print("Grabación completa")
