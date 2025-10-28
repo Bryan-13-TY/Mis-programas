@@ -25,10 +25,11 @@ def obtenerRuta() -> tuple[Path, Path, Path]:
     Returns
     -------
     tuple
-        (rutaArticulos, rutaCarrito)
+        (carpetaScript, rutaArticulos, rutaCarrito)
 
-        - **rutaArticulos** (str): Ruta completa del archivo "Articulos.json".
-        - **rutaCarrito** (str): Ruta completa del archivo "Carrito.json".
+        - **carpetaScript** (Path): Carpeta del script actual.
+        - **rutaArticulos** (Path): Ruta completa del archivo "Articulos.json".
+        - **rutaCarrito** (Path): Ruta completa del archivo "Carrito.json".
     """
     carpetaScript = Path(__file__).parent # Se obtiene la ruta de la carpeta del script
     rutaArticulos = carpetaScript/"data"/"Articulos.json" # Construye la ruta completa hacia "Articulos.json"
@@ -45,7 +46,7 @@ def cargarJSON(ruta: Path) -> dict:
 
     Parameters
     ----------
-    ruta : str
+    ruta : Path
         Ruta del archivo "Articulos.json" o "Carrito.json".
 
     Returns
@@ -67,7 +68,7 @@ def guardarJSON(ruta: Path, diccionarioNuevo: dict) -> None:
 
     Parameters
     ----------
-    ruta : str
+    ruta : Path
         Ruta del archivo "Carrito.json" o "Articulos.json".
     diccionarioNuevo: dict
         Diccionario con las modificaciones a cargar.
@@ -105,7 +106,7 @@ def enviarArticulos(ruta: Path, conexion: socket.socket) -> None:
 
     Parameters
     ----------
-    ruta : str
+    ruta : Path
         Ruta del archivo "Articulos.json" o "Carrito.json".
     conexion : socket.socket
         Nuevo socket que representa la conexión con un cliente en particular.
@@ -141,7 +142,7 @@ def buscarArticulo(rutaArticulos: Path, criterioBusqueda: str, conexion: socket.
 
     Parameters
     ----------
-    rutaArticulos : str
+    rutaArticulos : Path
         Ruta del archivo "Articulos.json".
     criterioBusqueda : str
         La marca o el nombre del artículo a buscar.
@@ -176,9 +177,9 @@ def agregarCarrito(rutaArticulos: Path, rutaCarrito: Path, criterioBusqueda: str
 
     Parameters
     ----------
-    rutaArticulos : str
+    rutaArticulos : Path
         Ruta del archivo "Articulos.json".
-    rutaCarrito : str
+    rutaCarrito : Path
         Ruta del archivo "Carrito.json".
     criterioBusqueda : str
         El id o el nombre del artículo a agregar.
@@ -257,7 +258,7 @@ def eliminarCarrito(rutaCarrito: Path, criterioBusqueda: str, cantidad: int, con
 
     Parameters
     ----------
-    rutaCarrito : str
+    rutaCarrito : Path
         Ruta del archivo "Carrito.json".
     criterioBusqueda : str
         El id o el nombre del artículo a eliminar.
@@ -327,12 +328,14 @@ def finalizarCompra(rutaArticulos: Path, rutaCarrito: Path, conexion: socket.soc
 
     Parameters
     ----------
-    rutaArticulos : str
+    rutaArticulos : Path
         Ruta del archivo "Articulos.json".
-    rutaCarrito : str
+    rutaCarrito : Path
         Ruta del archivo "Carrito.json".
     conexion : socket.socket
         Nuevo socket que representa la conexión con un cliente en particular.
+    carpetaScript : Path
+        Carpeta del script actual.
     """
     articulos = cargarJSON(rutaArticulos) # Guardamos los artículos en un diccionario
     carrito = cargarJSON(rutaCarrito) # Guardamos los artículos del carrito en un diccionario
