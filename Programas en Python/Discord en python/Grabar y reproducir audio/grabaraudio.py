@@ -8,6 +8,9 @@ carpetaScript = Path(__file__).parent
 fecha = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 rutaAudio = carpetaScript/".."/"audio"/f"grabacion_{fecha}.wav"
 
+# Crear carpeta si no existe
+rutaAudio.parent.mkdir(parents=True, exist_ok=True)
+
 # Parámetros
 duracion = 5 # Segundos 
 frecuencia = 44100 # Hz (calidad estándar de audio)
