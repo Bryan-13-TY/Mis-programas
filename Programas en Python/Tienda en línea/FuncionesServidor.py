@@ -16,7 +16,7 @@ import json, socket
 from datetime import datetime
 from pathlib import Path
 
-def obtenerRuta() -> tuple[str, str]:
+def obtenerRuta() -> tuple[Path, Path, Path]:
     """
     Obtiene la ruta del archivo "articulos.json".
 
@@ -36,7 +36,7 @@ def obtenerRuta() -> tuple[str, str]:
     
     return carpetaScript, rutaArticulos, rutaCarrito
 
-def cargarJSON(ruta: str) -> dict:
+def cargarJSON(ruta: Path) -> dict:
     """
     Convierte los artículos del archivo "Articulos.json" o "Carrito.json" a un diccionario.
 
@@ -58,7 +58,7 @@ def cargarJSON(ruta: str) -> dict:
 
     return articulos
 
-def guardarJSON(ruta: str, diccionarioNuevo: dict) -> None:
+def guardarJSON(ruta: Path, diccionarioNuevo: dict) -> None:
     """
     Guarda los cambios hechos en los artículos en el archivo correspondiente:
 
@@ -96,7 +96,7 @@ def enviarMensaje(mensaje: str, conexion: socket.socket) -> None:
     respuesta = json.dumps(mensajeEnviar).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
     conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion" 
 
-def enviarArticulos(ruta: str, conexion: socket.socket) -> None:
+def enviarArticulos(ruta: Path, conexion: socket.socket) -> None:
     """
     Envía los artículos de la tienda o del carrito de compras.
 
@@ -131,7 +131,7 @@ def enviarArticulos(ruta: str, conexion: socket.socket) -> None:
             respuesta = json.dumps(articulos).encode("utf-8") # Convierte el diccionario a una cadena en formato JSON (serialización) y luego a bytes
             conexion.send(respuesta) # Envía los bytes al cliente a traves del socket "conexion"
 
-def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.socket) -> None:
+def buscarArticulo(rutaArticulos: Path, criterioBusqueda: str, conexion: socket.socket) -> None:
     """
     Busca un artículo que coincida con el nombre o marca indicada por el cliente.
 
@@ -167,7 +167,7 @@ def buscarArticulo(rutaArticulos: str, criterioBusqueda: str, conexion: socket.s
     else: # Si no se encontro ningún artículo
         enviarMensaje("Servidor: No hay coincidencias.", conexion)
 
-def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
+def agregarCarrito(rutaArticulos: Path, rutaCarrito: Path, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
     """
     Agrega un artículo al carrito de compras.
 
@@ -248,7 +248,7 @@ def agregarCarrito(rutaArticulos: str, rutaCarrito: str, criterioBusqueda: str, 
     guardarJSON(rutaCarrito, carrito) # Se agrega el artículo al carrito
     enviarMensaje("El artículo se agregó al carrito", conexion)
 
-def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
+def eliminarCarrito(rutaCarrito: Path, criterioBusqueda: str, cantidad: int, conexion: socket.socket) -> None:
     """
     Elimina un artículo del carrito de compras.
 
@@ -317,7 +317,7 @@ def eliminarCarrito(rutaCarrito: str, criterioBusqueda: str, cantidad: int, cone
 
             return
 
-def finalizarCompra(rutaArticulos: str, rutaCarrito: str, conexion: socket.socket, carpetaScript: str) -> None:
+def finalizarCompra(rutaArticulos: Path, rutaCarrito: Path, conexion: socket.socket, carpetaScript: Path) -> None:
     """
     Finaliza la compra de los artículos en el carrito.
 
