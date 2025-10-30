@@ -1,7 +1,0 @@
-Práctica 3
-
-Se usaran sockts de datragarama (multicast) -> Se crean dos hilos (enviar y recibir mensajes) ambos comparten el descriptor del socket
-Para enviar un mensaja se requiere ingresar el nombre del usuario
-Al ingresar en ua sala -> "<inicio><user><sala>"
-Al enviar mensajes en la sala -> "<msj><user><sala><content>"
-Al enviar un mensaje privado -> "<msj><privado><from><to><content>"
