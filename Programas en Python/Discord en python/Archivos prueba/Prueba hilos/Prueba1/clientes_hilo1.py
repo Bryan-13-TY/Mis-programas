@@ -1,5 +1,4 @@
-import socket
-import threading
+import socket, threading
 
 def recibir_mensajes(sock, detener_evento):
     while not detener_evento.is_set():
