@@ -33,15 +33,8 @@ def enviar_mensaje() -> None:
         area_mensajes.insert(tk.END, f"Usuario: {texto}\n")
         entrada_mensaje.delete(0, tk.END)
 
-def main() -> None:
+def construir_interfaz(sala, nombre_sala: str):
     global area_mensajes, entrada_mensaje
-
-    # Se crea la interfaz de la sala
-    sala = tk.Tk()
-    sala.title("Sala: Sgt Pepper's Lonely Hearts Club Band")
-    sala.geometry("900x600") # Ancho x alto
-    sala.resizable(False, False) # Ancho x alto
-    sala.configure(bg=gray_1)
 
     # Se configura el tamaño de la columnas
     sala.columnconfigure(0, weight=4) # Para el chat
@@ -53,7 +46,7 @@ def main() -> None:
     # `-----------------------------/
     frame_titulo_sala = tk.Frame(sala, bg=gray_1, pady=4)
     frame_titulo_sala.grid(row=0, column=0, columnspan=5, sticky="we")
-    titulo_sala = tk.Label(frame_titulo_sala, text="Sala: Sgt Pepper's Lonely Hearts Club Band", font=(fuente, 16, "bold"), fg=white, bg=gray_1)
+    titulo_sala = tk.Label(frame_titulo_sala, text=nombre_sala, font=(fuente, 16, "bold"), fg=white, bg=gray_1)
     titulo_sala.pack()
 
     # /-----------------------------------.
@@ -113,7 +106,24 @@ def main() -> None:
     btn_enviar = tk.Button(frame_input, text="Enviar", font=(fuente, 12, "bold"), bg=discord, fg=white, relief="flat", command=enviar_mensaje)
     btn_enviar.grid(row=0, column=1, padx=(0, 10))
 
-    sala.mainloop() # Mostramos la sala
+def crear_sala(nombre_sala: str):
+    # Se crea la interfaz de la sala
+    sala = tk.Tk()
+    sala.title(nombre_sala)
+    sala.geometry("900x600") # Ancho x alto
+    sala.resizable(False, False) # Ancho x alto
+    sala.configure(bg=gray_1)
+
+    return sala, nombre_sala
+
+def main() -> None:
+    sala1, nombre_sala1 = crear_sala("Lalito XDE")
+    construir_interfaz(sala1, nombre_sala1)
+    #sala2, nombre_sala2 = crear_sala("Elgatito XDE")
+    #construir_interfaz(sala2, nombre_sala2)
+
+    sala1.mainloop()
+    #sala2.mainloop()
 
 if (__name__ == "__main__"):
     main()
