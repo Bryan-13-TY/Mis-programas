@@ -106,24 +106,21 @@ def construir_interfaz(sala, nombre_sala: str):
     btn_enviar = tk.Button(frame_input, text="Enviar", font=(fuente, 12, "bold"), bg=discord, fg=white, relief="flat", command=enviar_mensaje)
     btn_enviar.grid(row=0, column=1, padx=(0, 10))
 
-def crear_sala(nombre_sala: str):
+def crear_sala(root, nombre_sala: str):
     # Se crea la interfaz de la sala
-    sala = tk.Tk()
-    sala.title(nombre_sala)
-    sala.geometry("900x600") # Ancho x alto
-    sala.resizable(False, False) # Ancho x alto
-    sala.configure(bg=gray_1)
+    root.title(nombre_sala)
+    root.geometry("900x600") # Ancho x alto
+    root.resizable(False, False) # Ancho x alto
+    root.configure(bg=gray_1)
 
-    return sala, nombre_sala
+    return nombre_sala
 
 def main() -> None:
-    sala1, nombre_sala1 = crear_sala("Lalito XDE")
+    sala1 = tk.Tk()
+    nombre_sala1 = crear_sala(sala1, "Lalito XDE")
     construir_interfaz(sala1, nombre_sala1)
-    #sala2, nombre_sala2 = crear_sala("Elgatito XDE")
-    #construir_interfaz(sala2, nombre_sala2)
 
     sala1.mainloop()
-    #sala2.mainloop()
 
 if (__name__ == "__main__"):
     main()
