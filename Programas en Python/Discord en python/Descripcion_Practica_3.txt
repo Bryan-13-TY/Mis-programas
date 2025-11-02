@@ -8,8 +8,8 @@ Implementar una aplicación cliente-servidor para un servicio de chat usando soc
 4.- Cuando un usuario abandone una sala se actualizará la lista de usuarios activos en la dicha sala.
 5.- También se podrán enviar/recibir mensajes privados.
 
-Se usaran sockts de datragarama (multicast) -> Se crean dos hilos (enviar y recibir mensajes) ambos comparten el descriptor del socket
-Para enviar un mensaja se requiere ingresar el nombre del usuario
-Al ingresar en ua sala -> "<inicio><user><sala>"
-Al enviar mensajes en la sala -> "<msj><user><sala><content>"
-Al enviar un mensaje privado -> "<msj><privado><from><to><content>"
+Se usarán sockets de datagrama (multicast) -> Se crean dos hilos (enviar y recibir mensajes) ambos comparten el descriptor del socket
+Para enviar un mensaje se requiere ingresar el nombre del usuario primero
+Al ingresar en unaa sala se envía -> "<inicio><user><sala>"
+Al enviar mensajes en la sala se envía -> "<msj><user><sala><content>"
+Al enviar un mensaje privado se envía  -> "<msj><privado><from><to><content>"

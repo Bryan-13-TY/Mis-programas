@@ -1,31 +1,39 @@
 import socket, struct, threading, json
 
-MULTICAST_GPR, PORT = ("224.1.1.1", 5007) # Dirección multicast + puerto por sala
+MULTICAST_GRP, PORT = ("224.1.1.1", 5007) # Grupo multicast y el puerto
+# Las direcciones 224.0.0.0 - 239.255.255.255 son reservadas para multicast
 
-class ChatCliente:
-    def __init__(self, usuario, sala) -> None:
-        # Creamos las variables
+class ChatCliente: # Representa a un cliente del chat qu se conecta
+    def __init__(self, usuario: str, sala: str) -> None:
+        # Creamos los atributos de objeto
         self.usuario = usuario
         self.sala = sala
 
-        # Creamos el socket
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.sock.bind(('', PORT)) # Se escucha en todas las interfaces de ese puerto
+        # Creamos el socket (atributo de objeto)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # Creación del socket UDP
+        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # Permite que varios sockets se vinculen al mismo puerto
+        self.sock.bind(('', PORT)) # Asocia el socket al puerto 5007 en todas las interfaces de red
 
-        grupo = socket.inet_aton(MULTICAST_GPR) # Convierte la IP multicast a bytes
-        mreq = struct.pack('4sL', grupo, socket.INADDR_ANY) # Se crea la estructura ip_mreq con la dirección del grupo y la IP de la interfaz
-        self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+        # Unirse al grupo multicast
+        grupo = socket.inet_aton(MULTICAST_GRP) # Convierte la IP multicast a formato binario
+        mreq = struct.pack('4sL', grupo, socket.INADDR_ANY) # Grupo multicast (4 bytes), cualquier interfaz disponible (entero largo)
+        self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq) # Hace que el socket se una al grupo multicast, recibiendo los mensajes enviados al grupo 224.1.1.1
 
     def recibir(self):
+        """
+        Método para recibir mensajes de cualquier usuario.
+        """
         while (True):
-            data, addr = self.sock.recvfrom(4096)
-            msj = json.loads(data.decode())
+            data, addr = self.sock.recvfrom(4096) # Espera a recibir un datagrama UDP (1024 bytes)
+            msj = json.loads(data.decode()) # Decodifica el mensaje recibido
 
-            if (msj['sala'] == self.sala):
+            if (msj['sala'] == self.sala): # Muestra los mensajes que pertenecen a la misma sala del cliente
                 print(f"[{msj['user']}]: {msj['content']}")
 
     def enviar(self):
+        """
+        Métodod para enviar mensajes de cualquier usuario.
+        """
         while (True):
             texto = input("")
 
@@ -37,9 +45,12 @@ class ChatCliente:
                 "content": texto
             }
 
-            self.sock.sendto(json.dumps(mensaje).encode(), (MULTICAST_GPR, PORT))
+            self.sock.sendto(json.dumps(mensaje).encode(), (MULTICAST_GRP, PORT)) # Envía el mensaje al grupo multicast
 
     def iniciar(self):
+        """
+        Métodod que crea un hilo en segundo plano.
+        """
         threading.Thread(target=self.recibir, daemon=True).start()
         self.enviar()
 
@@ -49,4 +60,4 @@ if (__name__ == "__main__"):
     usuario = input("Usuario: ")
 
     cliente = ChatCliente(usuario, "general")
-    cliente.iniciar()
+    cliente.iniciar() # Enlaza los hilos de envío y recepción
