@@ -13,3 +13,17 @@ Para enviar un mensaje se requiere ingresar el nombre del usuario primero
 Al ingresar en unaa sala se envía -> "<inicio><user><sala>"
 Al enviar mensajes en la sala se envía -> "<msj><user><sala><content>"
 Al enviar un mensaje privado se envía  -> "<msj><privado><from><to><content>"
+
+Estructura general de los mensajes del cliente:
+
+|---------|-------------------------------------------|--------------------------------------------------------------------------|
+| Tipo    | Descripción                               | Ejemplo                                                                  |
+|---------|-------------------------------------------|--------------------------------------------------------------------------|
+| inicio  | Se envía al entrar a una sala             | {"tipo":"inicio","user":"Bryan","sala":"general"}                        |
+|---------|-------------------------------------------|--------------------------------------------------------------------------|
+| msj     | Mensaje público en una sala               | {"tipo":"msj","user":"Bryan","sala":"general","content":"Hola"}          |
+|---------|-------------------------------------------|--------------------------------------------------------------------------|
+| privado | Mensaje privado entre usuarios            | {"tipo":"msj","privado":true,"from":"Bryan","to":"Ana","content":"Hola"} |
+|---------|-------------------------------------------|--------------------------------------------------------------------------|
+| salir   | Aviso de que un usuario abandona una sala | {"tipo":"salir","user":"Bryan","sala":"general"}                         |
+|---------|-------------------------------------------|--------------------------------------------------------------------------|
