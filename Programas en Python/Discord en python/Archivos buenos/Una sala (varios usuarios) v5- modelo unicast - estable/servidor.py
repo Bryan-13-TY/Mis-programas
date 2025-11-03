@@ -1,4 +1,9 @@
-import socket, json, threading
+import socket, json, threading, os
+
+RED = "\033[91m"
+GREEN = "\033[92m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
 
 # Dirección y puerto del servidor
 HOST, PORT = "0.0.0.0", 5007 # El servidor escucha en todas las interfaces y en el puerto 5007
@@ -9,6 +14,12 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Se crea un socket UDP
 sock.bind((HOST, PORT)) # Se vincula el socket al puerto del servidor
 
 print("Servidor de chat unicast activo...")
+
+def limpiar_terminal() -> None:
+    """
+    Limpia la terminal de cualquier sistema operativo. 
+    """
+    os.system('cls' if os .name == 'nt' else 'clear')
 
 def enviar_unicast(data: dict, addr: tuple) -> None:
     """
@@ -62,7 +73,7 @@ def manejar_cliente() -> None:
             if (user not in usuarios[sala]): # Si el usuario no esta en la sala anteriormente
                 usuarios[sala][user] = addr # Se agrega el usuario a la sala (se guarda la IP y puerto del usuario)
 
-                aviso = {"tipo": "aviso", "sala": sala, "content": f"[+][{user}] se ha unido a la sala"}
+                aviso = {"tipo": "aviso", "sala": sala, "content": f"{GREEN}[+]{RESET}{BLUE}[{user}]{RESET} se ha unido a la sala"}
                 
                 enviar_publico(aviso, sala) # Se envía el aviso de entrada de un usuario
 
@@ -79,7 +90,7 @@ def manejar_cliente() -> None:
             
             if (destino in usuarios[sala]): # Si es destinatario esta en la sala
                 enviar_unicast(msj, usuarios[sala][destino]) # Se envía el mensaje al destinatario
-                enviar_unicast(msj, addr) # Se envía una copia del mensaje al remitente
+                #enviar_unicast(msj, addr) # Se envía una copia del mensaje al remitente
             else: # Si el destinatario no esta en la sala
                 error = {"tipo": "aviso", "sala": sala, "content": f"[Sistema] Usuario '{destino}' no está conectado."}
                 
@@ -89,7 +100,7 @@ def manejar_cliente() -> None:
             if (user in usuarios[sala]): # Si el usuario se encuentra en la sala
                 usuarios[sala].pop(user) # Se elimina el usuario de la sala
                 
-                aviso = {"tipo": "aviso", "sala": sala, "content": f"[-][{user}] ha abandonado la sala"}
+                aviso = {"tipo": "aviso", "sala": sala, "content": f"{RED}[-]{RESET}{BLUE}[{user}]{RESET} ha abandonado la sala"}
                 
                 enviar_publico(aviso, sala) # Se envía el aviso de salida de un usuario
 

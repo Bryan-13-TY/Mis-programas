@@ -2,6 +2,12 @@ import socket, threading, json, sys
 
 SERVER_IP, SERVER_PORT = "127.0.0.1", 5007  # IP y puerto del servidor
 
+YELLOW = "\033[93m"
+BLUE = "\033[94m"
+MAGENTA = "\033[95m"
+ORANGE = "\033[33m"
+RESET = "\033[0m"
+
 class ChatCliente:
     def __init__(self, usuario: str, sala: str):
         self.usuario = usuario
@@ -31,13 +37,13 @@ class ChatCliente:
 
                 if (msj["tipo"] == "msj"): # Si es un mensaje
                     if (msj.get("privado")): # Si es un mensaje privado
-                        print(f"[Privado de {msj['from']}]: {msj['content']}")
+                        print(f"{YELLOW}[Privado de {msj['from']}]{RESET}: {msj['content']}")
                     else: # Si es un mensaje público
-                        print(f"[{msj['user']}]: {msj['content']}")
+                        print(f"{BLUE}[{msj['user']}]{RESET}: {msj['content']}")
                 elif (msj["tipo"] == "aviso"): # Si es un avio
                     print(msj["content"])
                 elif (msj["tipo"] == "usuarios"): # Si es la lista de usuario en la sala
-                    print(f"\nUsuarios en sala '{self.sala}': {', '.join(msj['lista'])}\n")
+                    print(f"\nUsuarios en sala {MAGENTA}'{self.sala}'{RESET}: {MAGENTA}{', '.join(msj['lista'])}{RESET}\n")
             except:
                 break
 
@@ -72,7 +78,7 @@ class ChatCliente:
                     
                     self.sock.sendto(json.dumps(mensaje).encode(), (SERVER_IP, SERVER_PORT))
                     
-                    print(f"[Tú -> {destino}]: {contenido}")
+                    print(f"{ORANGE}[Tú -> {destino}]{RESET}: {contenido}")
                     continue
                 # Mensaje público
                 mensaje = {"tipo": "msj", "privado": False, "user": self.usuario,
