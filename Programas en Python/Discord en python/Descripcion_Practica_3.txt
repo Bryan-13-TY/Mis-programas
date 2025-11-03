@@ -10,9 +10,6 @@ Implementar una aplicación cliente-servidor para un servicio de chat usando soc
 
 Se usarán sockets de datagrama (multicast) -> Se crean dos hilos (enviar y recibir mensajes) ambos comparten el descriptor del socket
 Para enviar un mensaje se requiere ingresar el nombre del usuario primero
-Al ingresar en unaa sala se envía -> "<inicio><user><sala>"
-Al enviar mensajes en la sala se envía -> "<msj><user><sala><content>"
-Al enviar un mensaje privado se envía  -> "<msj><privado><from><to><content>"
 
 Estructura general de los mensajes del cliente:
 
@@ -27,3 +24,7 @@ Estructura general de los mensajes del cliente:
 |---------|-------------------------------------------|--------------------------------------------------------------------------|
 | salir   | Aviso de que un usuario abandona una sala | {"tipo":"salir","user":"Bryan","sala":"general"}                         |
 |---------|-------------------------------------------|--------------------------------------------------------------------------|
+
+Al ingresar en unaa sala se envía -> "<inicio><user><sala>"
+Al enviar mensajes en la sala se envía -> "<msj><user><sala><content>"
+Al enviar un mensaje privado se envía  -> "<msj><privado><from><to><content>"
