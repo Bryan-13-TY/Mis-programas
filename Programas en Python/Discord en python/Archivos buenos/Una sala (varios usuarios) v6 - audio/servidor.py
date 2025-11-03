@@ -1,4 +1,4 @@
-import socket, json, threading, os
+import socket, json, threading
 
 RED = "\033[91m"
 GREEN = "\033[92m"
@@ -15,12 +15,6 @@ sock.bind((HOST, PORT)) # Se vincula el socket al puerto del servidor
 
 print("Servidor de chat unicast activo...")
 
-def limpiar_terminal() -> None:
-    """
-    Limpia la terminal de cualquier sistema operativo. 
-    """
-    os.system('cls' if os .name == 'nt' else 'clear')
-
 def enviar_unicast(data: dict, addr: tuple) -> None:
     """
     Envía un mensaje a un cliente específico
@@ -34,7 +28,7 @@ def enviar_unicast(data: dict, addr: tuple) -> None:
     """
     sock.sendto(json.dumps(data).encode(), addr)
 
-def enviar_publico(data: dict, sala: str):
+def enviar_publico(data: dict, sala: str) -> None:
     """
     Envía un mensaje a todos los usuarios de la sala
     

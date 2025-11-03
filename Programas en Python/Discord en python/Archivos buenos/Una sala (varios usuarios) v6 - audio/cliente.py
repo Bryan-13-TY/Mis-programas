@@ -11,7 +11,7 @@ ORANGE = "\033[33m"
 RESET = "\033[0m"
 
 class ChatCliente:
-    def __init__(self, usuario: str, sala: str):
+    def __init__(self, usuario: str, sala: str) -> None:
         self.usuario = usuario
         self.sala = sala
         self.activo = True
@@ -24,7 +24,10 @@ class ChatCliente:
         inicio = {"tipo": "inicio", "user": self.usuario, "sala": self.sala}
         self.sock.sendto(json.dumps(inicio).encode(), (SERVER_IP, SERVER_PORT))
 
-    def grabar_audio(self):
+    def grabar_audio(self) -> None:
+        """
+        Métodod que graba audio, lo reproduce y despupes lo guarda.
+        """
         # Se contruye la ruta donde se guarda la grabación
         carpeta_script = Path(__file__).parent
         fecha = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -54,7 +57,7 @@ class ChatCliente:
 
         print("Reproducción terminada")
 
-    def recibir(self):
+    def recibir(self) -> None:
         """
         Método para recibir mensajes enviados solo a ese cliente.
         """
@@ -79,7 +82,7 @@ class ChatCliente:
             except:
                 break
 
-    def enviar(self):
+    def enviar(self) -> None:
         """
         Método para enviar mensajes al servidor.
         """
@@ -131,14 +134,17 @@ class ChatCliente:
                 
                 sys.exit(0)
 
-    def iniciar(self):
+    def iniciar(self) -> None:
         """
         Método para inicializar los hilos. Un hilo para recibir mensajes en segundo plano y uno principal para enviar.
         """
         threading.Thread(target=self.recibir, daemon=True).start()
         self.enviar()
 
-if (__name__ == "__main__"):
+def main() -> None:
     usuario = input("Antes de unirte a la sala, escribe tu nombre de usuario:\nUsuario: ")
     cliente = ChatCliente(usuario, "general")
     cliente.iniciar()
+
+if (__name__ == "__main__"):
+    main()
