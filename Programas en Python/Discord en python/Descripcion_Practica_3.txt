@@ -4,7 +4,7 @@ Implementar una aplicación cliente-servidor para un servicio de chat usando soc
 
 1.- La función del servidor solo será retransmitir la lista de usuarios activos en una sala c/que un nuevo usuario ingrese a la sala.
 2.- El usuario podrá ingresar a una o más sales de chat e interactuar en ellas.
-3.- En cada sala el usuario podrá enviar/recibir mensajes, stickers, o mensajes de audio.
+3.- En cada sala el usuario podrá enviar/recibir mensajes, stickers, emojis o mensajes de audio.
 4.- Cuando un usuario abandone una sala se actualizará la lista de usuarios activos en la dicha sala.
 5.- También se podrán enviar/recibir mensajes privados.
 
