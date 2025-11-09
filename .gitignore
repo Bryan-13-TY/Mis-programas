@@ -20,7 +20,6 @@ bin/
 dist/
 Debug/
 Release/
-audio/
 
 # ===== Python =====
 __pycache__/
