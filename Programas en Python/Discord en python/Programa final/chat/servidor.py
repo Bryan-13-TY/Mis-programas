@@ -69,7 +69,7 @@ def enviar_publico(data: dict, sala: str) -> None:
         enviar_unicast(data, usuario_addr)
 
 
-def recibir_audio_gbn(audio_sock: socket.socket, cliente_addr: tuple, info: dict) -> None:
+def recibir_audio_gbn(audio_sock: socket.socket, cliente_addr: tuple[str, int], info: dict) -> None:
     """
     Recibe por UDP un audio enviado por fragmentos (Go-Back-N simplificado).
 
@@ -158,6 +158,8 @@ def recibir_audio_gbn(audio_sock: socket.socket, cliente_addr: tuple, info: dict
     carpeta_sala.mkdir(parents=True, exist_ok=True)
 
     if privado and destinatario: # si es un audio privado
+        # TODO: si el destinatario se sabe que no existe, de todas formas se crea la carpeta con su nombre.
+        # TODO: hacer la validación del destinatario no soluciona el problema del todo, ya que el cliente se cierra al no existir la carpeta
         carpeta_dest = carpeta_sala / f"{destinatario}"
         carpeta_dest.mkdir(parents=True, exist_ok=True)
         ruta_archivo = carpeta_dest / nombre
@@ -186,7 +188,7 @@ def recibir_audio_gbn(audio_sock: socket.socket, cliente_addr: tuple, info: dict
     if privado and destinatario:
         if destinatario in usuarios.get(sala, {}):
             enviar_unicast(aviso, usuarios[sala][destinatario])
-        else:
+        else: # TODO: Si se sabe que el destinatario no existe, envía el mensaje, pero de todas formas se guarda el audio
             # si destinatario no está, enviar notificación al emisor
             error = {"tipo": "aviso",
                      "sala": sala,

@@ -197,7 +197,7 @@ class Cliente:
                                    "to": destinatario,
                                    "content": sticker,
                                    "sala": self.sala}
-                        self.sock.sendto(json.dumps(mensaje).encode(), SERVER)
+                        self.sock.sendto(json.dumps(mensaje).encode(), SERVER) # FIXME: En ningún momento se válida que el destinatario existe en la sala
                         print(f"{utils.ORANGE}[Tú -> {destinatario}]{utils.RESET}: {sticker}")
                         continue
 
