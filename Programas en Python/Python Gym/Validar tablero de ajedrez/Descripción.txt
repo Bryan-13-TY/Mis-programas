@@ -1,0 +1,34 @@
+Fecha: 27 de junio de 2024
+Nombre: Validar Tablero de Ajedrez
+
+/*------------.
+| Descripción |
+`------------*/
+
+Podemos representar un tablero de ajedrez usando un diccionario en dónde las claves 
+representen las coordenadas del tablero y los valores la pieza que está en esa posición,
+por ejemplo el siguiente diccionario
+
+{'1h': 'bking', '6c': 'wqueen', '2g': 'bbishop', '5h': 'bqueen', '3e': 'wking'}
+
+Indicaría que en el cuadro h1 está el rey negro, en el cuadro 6c la reyna blanca, etc.
+
+Escribe una función llamada 'isValidChessBoard' la cual toma como argumento un diccionario
+y devuelva 'True' o 'False' dependiendo si el diccionario representa un estado válido de un
+tablero de ajedrez, de acuerdo a las siguientes reglas.
+
+Un tablero válido debe tener exactamente un rey negro (bking) y exactamente un rey blanco (wking).
+Cada jugador puede tener un máximo de 16 piezas, de ellas máximo 8 peones, y todas las piezas
+deben estar en un cuadro válido, los cuales van de ‘1a’ a ‘8h’; por ejemplo, una pieza no puede
+estar en un cuadro como ‘9z’.
+
+Los nombres de las piezas comienzas con ‘w’ para blancas y ‘b’ para negras, y continúan con el
+nombre de la pieza, ‘pawn’ (peón), ‘knigh’ (caballo), ‘bishop’ (alfil), ‘rook’ (torre), ‘queen’ (reyna) y ‘king’ (rey).
+
+/*---------------------.
+| Ejemplo de ejecución |
+`---------------------*/
+
+board = {'1h': 'bking', '6c': 'wqueen', '2g': 'bbishop', '5h': 'bqueen', '3e': 'wking'}
+print(isValidChessBoard(board))
+True
