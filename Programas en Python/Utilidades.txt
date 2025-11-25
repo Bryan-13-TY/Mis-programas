@@ -65,3 +65,41 @@ Considera la cadena -> S = "Hola mundo"
 |                      | en caso contrario.                                                 |                      |          |
 |                      | El sufijo también puede ser una tupla de cadenas para probar.      |                      |          |
 |----------------------|--------------------------------------------------------------------|----------------------|----------|
+
+---- METODOS PARA ELIMINAR ESPACIOS/CARACTERES ----
+
+Considere la cadena texto = "   Hola mundo   "
+
+.-----------------.----------------------------------------------------------------------------.----------------.-----------------.
+| Método          | ¿Qué hace?                                                                 | Ejemplo        | Resutado        |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+| strip() -> str  | Devuelve una copia de la cadena sin los espacios iniciales ni finales.     | texto.strip()  | "Hola mundo"    |
+|                 |                                                                            |                |                 |
+|                 | Si se especifica 'chars' y no None, se eliminan los caracteres de 'chars'. |                |                 |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+| lstrip() -> str | Devuelve una copia de la cadena sin los espacios iniciales.                | texto.lstrip() | "Hola mundo   " |
+|                 |                                                                            |                |                 |
+|                 | Si se especifica 'chars' y no None, se eliminan los caracteres de 'chars'. |                |                 |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+| rstrip() -> str | Devuelve una copia de la cadena sin los espacios finales.                  | texto.rstrip() | " Hola mundo"   |
+|                 |                                                                            |                |                 |
+|                 | Si se especifica 'chars' y no None, se eliminan los caracteres de 'chars'. |                |                 |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+
+---- UNIR Y SEPARAR CADENAS ----
+
+Considere la cadena texto = "Hola mundo"
+Considere la lista lista = ["Hola", "mundo"]
+
+| split() -> list | | texto.split() | ['Hola', 'mundo'] |
+
+
+| rsplit() -> list | | texto.rsplit() | ['Hola', 'mundo'] |
+
+| splitlines() -> list | | "a\nb".splitlines() | ['a', 'b'] |
+
+| join() -> str | | " ".join(lista) | "Hola mundo" |
+
+| partition() -> tuple | | texto.partition(" ") | ('Hola', ' ', 'mundo') |
+
+| rpartition() -> tuple | | texto.rpartition(" ") | ('Hola', ' ', 'mundo') |
