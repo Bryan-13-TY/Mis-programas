@@ -34,3 +34,6 @@ Tipo: MIME -> que se esta codificando como texto
 2.3.- (GET) -> si tiene parámetros se separa en tokens, para obtener los parámetros
 3.- La respuesta es una página donde se incrustan los parámetros
 4.- Se genera el encabezado (Content-Type, Content-Lenght) -> referencia al archivo
+
+-> Para el DELETE verificar los permisos de escritura
+-> Ver el estado de la pila de conexiones
