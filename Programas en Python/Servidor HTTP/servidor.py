@@ -47,7 +47,7 @@ CARPETA_SECUNDARIA = CARPETA_SCRIPT / "archivos2"
 #CARPETA_SECUNDARIA.mkdir(exist_ok=True)
 
 # pool
-POOL_MAX = 10
+POOL_MAX = 6
 MITAD_POOL = POOL_MAX // 2
 pool = threading.Semaphore(POOL_MAX) # limita realmente a clientes activos
 
