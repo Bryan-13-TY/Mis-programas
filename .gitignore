@@ -29,6 +29,8 @@ __pycache__/
 *.log
 *.env
 *.wav
+*.mp3
+*.mp4
 .env/
 venv/
 venv*/

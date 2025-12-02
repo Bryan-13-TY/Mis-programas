@@ -20,7 +20,7 @@ Autores:
     - García Escamilla Bryan Alexis
     - Meléndez Macedonio Rodrigo
 
-Fecha: 25/11/2025
+Fecha: 01/12/2025
 """
 
 import socket
@@ -63,6 +63,9 @@ MIME_TYPES = {
     ".png": "image/png",
     ".jpg": "image/jpeg",
     ".jpeg": "image/jpeg",
+    ".mp4": "video/mp4",
+    ".mp3": "audio/mpeg",
+    ".pdf": "application/pdf",
 }
 
 def ahora() -> str:
@@ -294,7 +297,7 @@ def atender_cliente(cliente: socket.socket, carpeta_base: Path, puerto: int) -> 
         with lock:
             redirigir = conexiones_activas > MITAD_POOL and puerto == PUERTO_PRIMARIO
 
-        if redirigir: # sobre pasa la cantidad de clientes activos
+        if redirigir: # sobrepasa la cantidad de clientes activos
             respuesta = (
                 "HTTP/1.1 302 Found\r\n"
                 f"Location: http://{HOST}:{PUERTO_SECUNDARIO}\r\n\r\n"
