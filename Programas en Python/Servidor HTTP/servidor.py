@@ -43,9 +43,6 @@ CARPETA_SCRIPT = Path(__file__).parent
 CARPETA_PRIMARIA = CARPETA_SCRIPT / "archivos1"
 CARPETA_SECUNDARIA = CARPETA_SCRIPT / "archivos2"
 
-#CARPETA_PRIMARIA.mkdir(exist_ok=True)
-#CARPETA_SECUNDARIA.mkdir(exist_ok=True)
-
 # pool
 POOL_MAX = 6
 MITAD_POOL = POOL_MAX // 2
