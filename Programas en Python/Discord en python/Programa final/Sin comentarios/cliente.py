@@ -184,13 +184,11 @@ class Cliente:
                 sys.exit(0)
 
     def iniciar(self) -> None:
-        """Inicializa los hilos. Un hilo para recibir mensajes en segundo plano y uno principal para enviar."""
         threading.Thread(target=self.recibir_mensaje, daemon=True).start()
         self.enviar_mensaje()
 
 
 def obtener_salas() -> list:
-    """Muestra las salas disponibles para unirse."""
     temp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     temp_sock.bind(('', 0))
     peticion = {"tipo": "listar_salas"}

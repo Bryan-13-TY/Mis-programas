@@ -205,7 +205,7 @@ class Audio:
         carpeta_personal : Path
             Ruta hacia la carpeta del usuario donde se buscará el audio.
         usuario : str
-            Nombre del usuario que quiere reproducir el audio
+            Nombre del usuario que quiere reproducir el audio.
         nombre_audio : str
             Nombre del audio que se quiere buscar.
 

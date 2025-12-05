@@ -281,7 +281,7 @@ def main() -> None:
         for i, s in enumerate(salas_disponibles, 1):
             print(f"{i}. {s}")
     else:
-        print(f">> {utils.RED}[system]{utils.RESET} No hay salas actvas. Se creará una nueva sala al unirte")
+        print(f">> {utils.RED}[system]{utils.RESET} No hay salas activas. Se creará una nueva sala al unirte")
 
     sala = input("\nEscribe el nombre de la sala a la que desesar unirte (o crea una nueva): ").strip()
     if not sala:
@@ -295,7 +295,7 @@ def main() -> None:
  BIENVENIDO A LA SALA '{sala}'
 ====================================
  USUARIO: {usuario}
-========================
+====================================
 """)
     cliente = Cliente(usuario, sala)
     cliente.iniciar()
