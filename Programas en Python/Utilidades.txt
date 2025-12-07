@@ -1,0 +1,105 @@
+/*---------------------.
+| METODOS PARA CADENAS |
+`----------------------*/
+
+---- METOTOS PARA MODIFICAR CADENAS ----
+
+Considera la cadena -> texto = 'HoLa MuNdO'
+
+.---------------------.-----------------------------------------------------------------.--------------------.---------------.
+| Método              | ¿Qué hace?                                                      | Ejemplo            | Resultado     |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+| upper() -> str      | Devuelve una copia de la cadena convertida a mayúsculas.        | texto.upper()      | "HOLA MUNDO"  |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+| lower() -> str      | Devuelve una copia de la cadena convertida a minúsculas.        | texto.lower()      | "hola mundo"  |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+| capitalize() -> str | Devuelve una versión en mayúsculas de la cadena.                | texto.capitalize() | "Hola mundo"  |
+|                     |                                                                 |                    |               |
+|                     | Más específicamente, convierte el primer carácter en mayúsculas |                    |               | 
+|                     | y el resto en minúsculas.                                       |                    |               |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+| title() -> str      | Devuelve una versión de la cadena donde cada palabra se escribe | texto.title()      | "Hola Mundo"  |
+|                     | con mayúscula inicial.                                          |                    |               |
+|                     |                                                                 |                    |               |
+|                     | Más específicamente, las palabras comienzan con mayúscula       |                    |               |
+|                     | inicial y el resto de los caracteres con mayúscula inicial se   |                    |               |
+|                     | escriben con minúscula.                                         |                    |               |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+| swapcase() -> str   | Convierte caracteres mayúsculas en minúsculas y caracteres      | texto.swapcase ()  | "hOlA mUnDo"  |
+|                     | minúsculas en mayúsculas.                                       |                    |               |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+| casefold() -> str   | Devuelve una versión de la cadena adecuada para comparaciones   | texto.casefold()   | "hola mundo"  |
+|                     | sin distinción entre mayúsculas y minúsculas.                   |                    |               |
+|---------------------|-----------------------------------------------------------------|--------------------|---------------|
+
+---- METOTOS PARA BUSCAR TEXTO ----
+
+Considera la cadena -> S = "Hola mundo"
+
+.----------------------.--------------------------------------------------------------------.----------------------.----------.
+| Método               | ¿Qué hace?                                                         | Ejemplo              | Resutado |
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+| find() -> int        | Devuelve el índice más bajo en 'S' donde se encuentra la           | S.find("mundo")      | 5        |
+|                      | subcadena 'sub', de modo que 'sub' esté dentro de S[inicio:fin].   |                      |          |
+|                      |                                                                    |                      |          |
+|                      | Devuelve -1 en caso de error.                                      |                      |          |
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+| rfind() -> int       | Devuelve el índice más alto en 'S' donde se encuentra la subcadena | S.rfind("o")         | 9        |
+|                      | 'sub' de modo que 'sub' esté dentro de S[inicio:fin].              |                      |          |
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+| index() -> int       | Devuelve el índice más bajo en 'S' donde se encuentra la subcadena | S.index("Hola")      | 0        |
+|                      | 'sub', de modo que 'sub' esté dentro de S[inicio:fin].             |                      |          |
+|                      |                                                                    |                      |          |
+|                      | Se genera un error ValueError cuando no se encuentra la subcadena. |                      |          | 
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+| rindex() -> int      | Devuelve el índice más alto en 'S' donde se encuentra la subcadena | S.rindex("o")        | 9        |
+|                      | 'sub', de modo que 'sub' esté dentro de S[inicio:fin].             |                      |          |
+|                      |                                                                    |                      |          |
+|                      | Se genera un error ValueError cuando no se encuentra la subcadena. |                      |          |
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+| startswith() -> bool | Devuelve 'True' si 'S' comienza con el prefijo especificado;       | S.startswith("Hola") | True     |
+|                      | 'False' en caso contrario.                                         |                      |          |
+|                      | El prefijo también puede ser una tupla de cadenas para probar.     |                      |          |
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+| endswith() -> bool   | Devuelve 'True' si 'S' termina con el sufijo especificado; 'False' | S.endswith("do")     | True     |
+|                      | en caso contrario.                                                 |                      |          |
+|                      | El sufijo también puede ser una tupla de cadenas para probar.      |                      |          |
+|----------------------|--------------------------------------------------------------------|----------------------|----------|
+
+---- METODOS PARA ELIMINAR ESPACIOS/CARACTERES ----
+
+Considere la cadena texto = "   Hola mundo   "
+
+.-----------------.----------------------------------------------------------------------------.----------------.-----------------.
+| Método          | ¿Qué hace?                                                                 | Ejemplo        | Resutado        |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+| strip() -> str  | Devuelve una copia de la cadena sin los espacios iniciales ni finales.     | texto.strip()  | "Hola mundo"    |
+|                 |                                                                            |                |                 |
+|                 | Si se especifica 'chars' y no None, se eliminan los caracteres de 'chars'. |                |                 |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+| lstrip() -> str | Devuelve una copia de la cadena sin los espacios iniciales.                | texto.lstrip() | "Hola mundo   " |
+|                 |                                                                            |                |                 |
+|                 | Si se especifica 'chars' y no None, se eliminan los caracteres de 'chars'. |                |                 |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+| rstrip() -> str | Devuelve una copia de la cadena sin los espacios finales.                  | texto.rstrip() | " Hola mundo"   |
+|                 |                                                                            |                |                 |
+|                 | Si se especifica 'chars' y no None, se eliminan los caracteres de 'chars'. |                |                 |
+|-----------------|----------------------------------------------------------------------------|----------------|-----------------|
+
+---- UNIR Y SEPARAR CADENAS ----
+
+Considere la cadena texto = "Hola mundo"
+Considere la lista lista = ["Hola", "mundo"]
+
+| split() -> list | | texto.split() | ['Hola', 'mundo'] |
+
+
+| rsplit() -> list | | texto.rsplit() | ['Hola', 'mundo'] |
+
+| splitlines() -> list | | "a\nb".splitlines() | ['a', 'b'] |
+
+| join() -> str | | " ".join(lista) | "Hola mundo" |
+
+| partition() -> tuple | | texto.partition(" ") | ('Hola', ' ', 'mundo') |
+
+| rpartition() -> tuple | | texto.rpartition(" ") | ('Hola', ' ', 'mundo') |
