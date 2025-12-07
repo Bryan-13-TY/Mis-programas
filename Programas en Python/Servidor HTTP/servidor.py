@@ -20,7 +20,7 @@ Autores:
     - García Escamilla Bryan Alexis
     - Meléndez Macedonio Rodrigo
 
-Fecha: 01/12/2025
+Fecha: 06/12/2025
 """
 
 import socket
@@ -255,6 +255,10 @@ def procesar_peticion(cliente: socket.socket, peticion: str, carpeta_base: Path,
 
 def atender_cliente(cliente: socket.socket, carpeta_base: Path, puerto: int) -> None:
     """
+    See encarga de recibit la petición.
+
+    Parameters
+    ----------
     cliente : socket.socket
         Socket del cliente al quien se envía la respuesta.
     carpeta_base : Path
