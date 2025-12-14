@@ -4,8 +4,26 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-static node *head = NULL;
-static node *tail = NULL;
+typedef struct Node {
+    int num;
+    struct Node *sgt;
+} Node;
+
+struct List {
+    Node *head;
+    Node *tail;
+    int count;
+};
+
+void init_list(List *list) {
+    list -> head = NULL;
+    list -> tail = NULL;
+    list -> count = 0;
+}
+
+int obtener_count(List *list) {
+    return list -> count;
+}
 
 /**
  * @brief Crea una lista simplemente enlazada.
@@ -15,19 +33,19 @@ static node *tail = NULL;
  * @param num Número inicial de la lista.
  * @param count Puntero al contador de los números en la lista.
  */
-static void crear_lista(int num, int *count) {
-    head = malloc(sizeof(node)); // nodo inicial de la lista
+static void crear_lista(List *list, int num) {
+    list -> head = malloc(sizeof(Node)); // nodo inicial de la lista
 
-    if (head == NULL) { // error al crear el nodo
+    if (list -> head == NULL) { // error al crear el nodo
         printf("\n>> ERROR: Error al crear la lista enlazada");
         return;
     }
 
-    head -> num = num;
-    head -> sgt = NULL;
-    tail = head;
+    list -> head -> num = num;
+    list -> head -> sgt = NULL;
+    list -> tail = list -> head;
 
-    (*count)++;
+    list -> count++;
 
     printf("\n>> El numero %d se inserto correctamente", num);
 }
@@ -41,13 +59,13 @@ static void crear_lista(int num, int *count) {
  * @param num Número a insertar al final de la lista.
  * @param count Puntero al contador de los números en la lista.
  */
-void insertar_final(int num, int *count) {
-    if (head == NULL) { // lista vacía
-        crear_lista(num, count);
+void insertar_final(List *list, int num) {
+    if (list -> head == NULL) { // lista vacía
+        crear_lista(list, num);
         return;
     }
 
-    node *new = malloc(sizeof(node)); // número a insertar
+    Node *new = malloc(sizeof(Node)); // número a insertar
 
     if (new == NULL) { // error al crear el nodo
         printf("\n>> ERROR: Error al insertar el numero");
@@ -56,10 +74,10 @@ void insertar_final(int num, int *count) {
 
     new -> num = num;
     new -> sgt = NULL;
-    tail -> sgt = new;
-    tail = new;
+    list -> tail -> sgt = new;
+    list -> tail = new;
 
-    (*count)++;
+    list -> count++;
 
     printf("\n>> El numero %d se inserto correctamente", num);
 }
@@ -73,13 +91,13 @@ void insertar_final(int num, int *count) {
  * @param num Número a insertar al inicio de la lista.
  * @param count Puntero al contador de los números en la lista.
  */
-void insertar_inicio(int num, int *count) {
-    if (head == NULL) { // lista vacía
-        crear_lista(num, count);
+void insertar_inicio(List *list, int num) {
+    if (list -> head == NULL) { // lista vacía
+        crear_lista(list, num);
         return;
     }
 
-    node *new = malloc(sizeof(node)); // número a insertar
+    Node *new = malloc(sizeof(Node)); // número a insertar
 
     if (new == NULL) { // error al crear el nodo
         printf("\n>> ERROR: Error al insertar el numero");
@@ -87,10 +105,10 @@ void insertar_inicio(int num, int *count) {
     }
 
     new -> num = num;
-    new -> sgt = head;
-    head = new;
+    new -> sgt = list -> head;
+    list -> head = new;
 
-    (*count)++;
+    list -> count++;
 
     printf("\n>> El numero %d se inserto correctamente", num);
 }
@@ -101,9 +119,9 @@ void insertar_inicio(int num, int *count) {
  * @param pos Posición en la que se inserta el número.
  * @param count Puntero al contador de los números en la lista.
  */
-static bool validar_posicion(int pos, int *count) {
-    if (pos > (*count) + 1) {
-        printf("\n>> ERROR: La posición %d no es valida", pos);
+static bool validar_posicion(List *list, int pos) {
+    if (pos > list -> count + 1) {
+        printf("\n>> ERROR: La posicion %d no es valida", pos);
         return false;
     }
     else if (pos < 1) {
@@ -125,23 +143,23 @@ static bool validar_posicion(int pos, int *count) {
  * @param pos Posición en la que se inserta el número.
  * @param count Puntero al contador de los números en la lista.
  */
-void insertar_posicion(int num, int pos, int *count) {
-    if (!validar_posicion(pos, count)) { // posición no valida
+void insertar_posicion(List *list, int num, int pos) {
+    if (!validar_posicion(list, pos)) { // posición no valida
         return;
     }
 
     if (pos == 1) { // insertar al inicio
-        insertar_inicio(num, count);
+        insertar_inicio(list, num);
         return;
     }
 
-    if (pos == *count + 1) { // insertar al final
-        insertar_final(num, count);
+    if (pos == list -> count + 1) { // insertar al final
+        insertar_final(list, num);
         return;
     }
 
-    node *new = malloc(sizeof(node)); // número a insertar
-    node *before = head; // posición entes de la indicada
+    Node *new = malloc(sizeof(Node)); // número a insertar
+    Node *before = list -> head; // posición entes de la indicada
 
     if (new == NULL) {
         printf("\n>> ERROR: Error al insertar el numero");
@@ -157,7 +175,7 @@ void insertar_posicion(int num, int pos, int *count) {
     new -> sgt = before -> sgt;
     before -> sgt = new;
 
-    (*count)++;
+    list -> count++;
 
     printf("\n>> El numero %d se inserto correctamente", num);
 }
@@ -165,8 +183,8 @@ void insertar_posicion(int num, int pos, int *count) {
 /**
  * @brief Verifica si la lista esta vacía o no.
  */
-static bool vacio() {
-    if (head != NULL) {
+static bool vacio(List *list) {
+    if (list -> head != NULL) {
         return false;
     }
 
@@ -182,24 +200,24 @@ static bool vacio() {
  * @param pos Posición en la que se inserta el nuevo número.
  * @param count Puntero al contador de los números en la lista.
  */
-void cambiar_num(int num, int pos, int *count) {
-    if (vacio()) { // lista vacía
+void cambiar_num(List *list, int num, int pos) {
+    if (vacio(list)) { // lista vacía
         printf("\n>> ERROR: La lista esta vacia");
         return;
     }
 
-    if (pos > *count || pos < 1) { // posición no válida
+    if (pos > list -> count || pos < 1) { // posición no válida
         printf("\n>> ERROR: Posicion no valida");
         return;
     }
 
-    node *move = head;
+    Node *actual = list -> head;
 
     for (int i = 0; i < pos - 1; i++) { // mover *move a su posición
-        move = move -> sgt;
+        actual = actual -> sgt;
     }
 
-    move -> num = num;
+    actual -> num = num;
 
     printf("\n>> El numero en la posicion %d, ha sido modificado correctamente", pos);
 }
@@ -211,23 +229,23 @@ void cambiar_num(int num, int pos, int *count) {
  * 
  * @param num Número a buscar.
  */
-void buscar_num(int num) {
-    if (vacio()) { // lista vacía
+void buscar_num(List *list, int num) {
+    if (vacio(list)) { // lista vacía
         printf("\n>> ERROR: La lista esta vacia");
         return;
     }
 
-    node *move = head;
+    Node *actual = list -> head;
     int pos = 0; 
     bool found = false;
 
-    while (move != NULL) { // mover *move a la posición
-        if (move -> num == num) { // se encuentra
+    while (actual != NULL) { // mover *move a la posición
+        if (actual -> num == num) { // se encuentra
             found = true;
             printf("\n>> El numero %d se encuentra en la posicion %d de la lista", num, pos + 1);
         }
 
-        move = move -> sgt;
+        actual = actual -> sgt;
         pos++;
     }
 
@@ -244,24 +262,24 @@ void buscar_num(int num) {
  * @param pos Posición del número a consultar.
  * @param count Puntero al contador de los números en la lista.
  */
-void consultar_num(int pos, int *count) {
-    if (vacio()) {
+void consultar_num(List *list, int pos) {
+    if (vacio(list)) {
         printf("\n>> ERROR: La lista esta vacia");
         return;
     }
 
-    if (pos > *count || pos < 1) { // posición no válida
+    if (pos > list -> count || pos < 1) { // posición no válida
         printf("\n>> ERROR: Posicion no valida");
         return;
     }
 
-    node *move = head;
+    Node *actual = list -> head;
 
     for (int i = 0; i < pos - 1; i++) { // mover *move a la posición
-        move = move -> sgt;
+        actual = actual -> sgt;
     }
 
-    printf("\n>> El numero en la posicion %d es el %d", pos, move -> num);
+    printf("\n>> El numero en la posicion %d es el %d", pos, actual -> num);
 }
 
 /**
@@ -274,72 +292,72 @@ void consultar_num(int pos, int *count) {
  * @param pos Posición del número a eliminar.
  * @param count Puntero al contador de los números en la lista.
  */
-void liberar_num(int pos, int *count) {
-    if (vacio()) {
+void liberar_num(List *list, int pos) {
+    if (vacio(list)) {
         printf("\n>> ERROR: La lista esta vacia");
         return;
     }
     
-    node *move = head;
-    node *after = NULL; // apuntador al número anterior al que queremos eliminar
-    node *before = NULL; // apuntador al número a eliminar
-    node *delete = NULL; // Apuntador al número siguiente al que queremos eliminar
+    Node *actual = list -> head;
+    Node *after = NULL; // apuntador al número anterior al que queremos eliminar
+    Node *before = NULL; // apuntador al número a eliminar
+    Node *delete = NULL; // Apuntador al número siguiente al que queremos eliminar
 
-    if (head -> sgt == NULL) { // un elemento en la lista
-        free(head);
-        head = NULL;
-        tail = NULL;
+    if (list -> head -> sgt == NULL) { // un elemento en la lista
+        free(list -> head);
+        list -> head = NULL;
+        list -> tail = NULL;
 
-        (*count) = 0;
+        list -> count = 0;
 
         printf("\n>> El numero se elimino correctamente");
         return;
     }
 
-    if (pos == *count) { // último de la lista
+    if (pos == list -> count) { // último de la lista
         for (int i = 2; i < pos; i++) { // mober *move a la posición
-            move = move -> sgt;
+            actual = actual -> sgt;
         }
 
-        after = move -> sgt; // apuntamos al último
+        after = actual -> sgt; // apuntamos al último
         free(after); // liberamos al último
-        tail = move; // actualizamos tail_slist
-        tail -> sgt = NULL; // apuntamos a NULL
+        list -> tail = actual; // actualizamos tail_slist
+        list -> tail -> sgt = NULL; // apuntamos a NULL
 
-        (*count)--;
+        list -> count--;
 
         printf("\n>> El numero se elimino correctamente");
         return;
     }
 
     if (pos == 1) { // primero de la lista
-        delete = head;
-        head = head -> sgt;
+        delete = list -> head;
+        list -> head = list -> head -> sgt;
         free(delete); // liberamos al número
 
-        (*count)--;
+        list -> count--;
 
         printf("\n>> El numero se elimino correctamente");
         return;
     }
 
-    if (pos > *count || pos < 1) { // posición no válida
+    if (pos > list -> count || pos < 1) { // posición no válida
         printf("\n>> ERROR: Posicion no valida");
         return;
     }
 
     // cualquiera entre head y tail de la lista
     for (int i = 2; i < pos; i++) { // mover *move a la posición anterior
-        move = move -> sgt;
+        actual = actual -> sgt;
     }
 
-    before = move; // apuntamos al aterior
-    delete = move -> sgt; // apuntamos al número a eliminar
+    before = actual; // apuntamos al aterior
+    delete = actual -> sgt; // apuntamos al número a eliminar
     after = delete -> sgt; // apuntamos al siguiente
     free(delete); // liberamos al número
 
     before -> sgt = after; // unimos la lista
-    (*count)--;
+    list -> count--;
 
     printf("\n>> El numero se elimino correctamente");
 }
@@ -347,18 +365,18 @@ void liberar_num(int pos, int *count) {
 /**
  * @brief Suma los números de la lista.
  */
-void sumar_lista() {
-    if (vacio()) { // lista vacía
+void sumar_lista(List *list) {
+    if (vacio(list)) { // lista vacía
         printf("\n\n>> ERROR: La lista esta vacia");
         return;
     }
 
-    node *move = head;
+    Node *actual = list -> head;
     int sum = 0;
 
-    while (move != NULL) {
-        sum += move -> num;
-        move = move -> sgt;
+    while (actual != NULL) {
+        sum += actual -> num;
+        actual = actual -> sgt;
     }
 
     printf("\n\n>> La suma de los numeros de la lista es %d", sum);
@@ -369,23 +387,24 @@ void sumar_lista() {
  * 
  * @param count Puntero al contador de los números en la lista.
  */
-void liberar_lista(int *count) {
-    if (vacio()) {
+void liberar_lista(List *list) {
+    if (vacio(list)) {
         return;
     }
 
-    node *delete = head;
-    node *move = NULL;
+    Node *delete = list -> head;
+    Node *actual = NULL;
 
     while (delete != NULL) {
-        move = delete -> sgt; // nodo siguiente
+        actual = delete -> sgt; // nodo siguiente
         free(delete); // liberamos nodo actual
-        delete = move; // actualizar
+        delete = actual; // actualizar
     }
 
-    head = NULL;
-    tail = NULL;
-    *count = 0;
+    list -> head = NULL;
+    list -> tail = NULL;
+    list -> count = 0;
+    free(list);
 
     printf("\n>> La lista se ha eliminado correctamente");
 }
@@ -393,19 +412,19 @@ void liberar_lista(int *count) {
 /**
  * @brief Imprime la lista.
  */
-void mostrar_lista() {
-    if (vacio()) {
+void mostrar_lista(List *list) {
+    if (vacio(list)) {
         printf("\n\n>> ERROR: La lista esta vacia");
         return;
     }
 
-    node *show = head;
+    Node *actual = list -> head;
 
     printf("\n\nElementos de la lista: ");
 
-    while (show != NULL) {
-        printf("%d -> ", show -> num);
-        show = show -> sgt;
+    while (actual != NULL) {
+        printf("%d -> ", actual -> num);
+        actual = actual -> sgt;
     }
 
     printf("NULL");

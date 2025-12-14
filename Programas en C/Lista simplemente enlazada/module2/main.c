@@ -5,14 +5,17 @@
 #include <conio.h>
 
 int main(int argc, char const *argv[]) {
-    int num, op, pos = 0, count = 0;
+    list lista;
+    int num, op, pos = 0;
+
+    init_list(&lista);
 
     do {
         system("cls");
         printf("/*--------------------------------------------------------------------.");
         printf("\n| PROGRAMA QUE CREA UNA LISTA DE NUMEROS (LISTA SIMPLEMENTE ENLAZADA) |");
         printf("\n`--------------------------------------------------------------------*/");
-        printf("\n\nNumeros en la lista: %d", count);
+        printf("\n\nNumeros en la lista: %d", obtener_count(&lista));
         printf("\n\n>> Elija una de las opciones");
         printf("\n\n1.- Insertar un numero al final de la lista");
         printf("\n2.- Insertar un numero al inicio de la lista");
@@ -33,14 +36,14 @@ int main(int argc, char const *argv[]) {
                 printf("\n__INSERTAR UN NUMERO AL FINAL DE LA LISTA__");
                 printf("\n\nEscribe el numero a insertar: ");
                 scanf("%d", &num);
-                insertar_final(num, &count);
+                insertar_final(&lista, num);
                 getch();
                 break;
             case 2:
                 printf("\n__INSERTAR UN NUMERO AL INICIO DE LA LISTA__");
                 printf("\n\nEscribe el numero a insertar: ");
                 scanf("%d", &num);
-                insertar_inicio(num, &count);
+                insertar_inicio(&lista, num);
                 getch();
                 break;
             case 3:
@@ -49,7 +52,7 @@ int main(int argc, char const *argv[]) {
                 scanf("%d", &pos);
                 printf("\nEscribe el numero a insertar: ");
                 scanf("%d", &num);
-                insertar_posicion(num, pos, &count);
+                insertar_posicion(&lista, num, pos);
                 getch();
                 break;
             case 4:
@@ -58,47 +61,47 @@ int main(int argc, char const *argv[]) {
                 scanf("%d", &pos);
                 printf("\nEscribe el numero a insertar: ");
                 scanf("%d", &num);
-                cambiar_num(num, pos, &count);
+                cambiar_num(&lista, num, pos);
                 getch();
                 break;
             case 5:
                 printf("\n__BUSCAR UN NUMERO EN LA LISTA (POR NUMERO)__");
                 printf("\n\nEscribe el numero a buscar: ");
                 scanf("%d", &num);
-                buscar_num(num);
+                buscar_num(&lista, num);
                 getch();
                 break;
             case 6:
                 printf("\n__BUSCAR UN NUMERO EN LA LISTA (POR POSICION)__");
                 printf("\n\nEscribe la posicion a consultar: ");
                 scanf("%d", &pos);
-                consultar_num(pos, &count);
+                consultar_num(&lista, pos);
                 getch();
                 break;
             case 7:
                 printf("\n__BORRAR UN NUMERO EN UNA POSICION DE LA LISTA__");
                 printf("\n\nEscribe la posicion del numero a eliminar: ");
                 scanf("%d", &pos);
-                liberar_num(pos, &count);
+                liberar_num(&lista, pos);
                 getch();
                 break;
             case 8:
                 printf("\n__SUMAR LOS NUMEROS DE LA LISTA__");
-                sumar_lista();
+                sumar_lista(&lista);
                 getch();
                 break;
             case 9:
-                liberar_lista(&count);
+                liberar_lista(&lista);
                 getch();
                 break;
             case 10:
                 printf("\n__MOSTRAR LA LISTA__");
-                mostrar_lista();
+                mostrar_lista(&lista);
                 getch();
                 break;
             case 11:
                 printf("\n>> Gracias por probar el programa, regrese pronto");
-                liberar_lista(&count);
+                liberar_lista(&lista);
                 getch();
                 break;
             default:
