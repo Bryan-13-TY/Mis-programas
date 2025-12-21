@@ -115,7 +115,7 @@ def snake():
             comida_x = round(random.randrange(0, ancho - tam_bloque) / 20.0) * 20
             comida_y = round(random.randrange(0, alto - tam_bloque) / 20.0) * 20
             longitud_cuerpo += 1
-            velocidad += 0.2
+            velocidad += 0.75
 
         clock.tick(velocidad)
 
